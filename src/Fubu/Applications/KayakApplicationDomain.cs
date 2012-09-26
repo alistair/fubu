@@ -13,7 +13,7 @@ namespace Fubu.Applications
     public class KayakApplicationDomain : IApplicationDomain
     {
         private AppDomain _domain;
-        private ApplicationRunner _runner;
+        private KayakApplicationRunner _runner;
         private readonly FubuMvcApplicationFileWatcher _watcher;
         private ApplicationSettings _currentSettings;
 
@@ -43,7 +43,7 @@ namespace Fubu.Applications
                         };
 
             copyAssembly("FubuKayak", setup);
-            copyAssembly<ApplicationRunner>(setup);
+            copyAssembly<KayakApplicationRunner>(setup);
             copyAssembly<FubuOwinHost>(setup);
             copyAssembly("Kayak", setup);
             copyAssembly("Gate", setup);
@@ -53,9 +53,9 @@ namespace Fubu.Applications
 
             _domain = AppDomain.CreateDomain(setup.ApplicationName, null, setup);
 
-            Type proxyType = typeof(ApplicationRunner);
+            Type proxyType = typeof(KayakApplicationRunner);
             _runner =
-                (ApplicationRunner)
+                (KayakApplicationRunner)
                 _domain.CreateInstanceAndUnwrap(proxyType.Assembly.FullName, proxyType.FullName);
 
             var resetEvent = new ManualResetEvent(false);

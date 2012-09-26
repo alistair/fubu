@@ -8,16 +8,16 @@ using FubuMVC.Core.Packaging;
 
 namespace Fubu.Applications
 {
-    public class ApplicationRunner : MarshalByRefObject, IDisposable
+    public class KayakApplicationRunner : MarshalByRefObject, IDisposable
     {
         private readonly IApplicationSourceFinder _sourceFinder;
         private FubuKayakApplication _kayakApplication;
 
-        public ApplicationRunner() : this(new ApplicationSourceFinder(new ApplicationSourceTypeFinder()))
+        public KayakApplicationRunner() : this(new ApplicationSourceFinder(new ApplicationSourceTypeFinder()))
         {
         }
 
-        public ApplicationRunner(IApplicationSourceFinder sourceFinder)
+        public KayakApplicationRunner(IApplicationSourceFinder sourceFinder)
         {
             _sourceFinder = sourceFinder;
         }

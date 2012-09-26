@@ -11,7 +11,7 @@ namespace fubu.Testing.Applications
 {
     [TestFixture]
     public class when_starting_an_application_runner_and_the_source_cannot_be_resolved :
-        InteractionContext<ApplicationRunner>
+        InteractionContext<KayakApplicationRunner>
     {
         private ApplicationSettings theSettings;
         private ApplicationStartResponse theResponse;
@@ -38,7 +38,7 @@ namespace fubu.Testing.Applications
     }
 
     [TestFixture]
-    public class when_starting_an_application_runner_and_the_application_source_finding_fails : InteractionContext<ApplicationRunner>
+    public class when_starting_an_application_runner_and_the_application_source_finding_fails : InteractionContext<KayakApplicationRunner>
     {
         private IApplicationSource theSource;
         private ApplicationSettings theSettings;
@@ -82,7 +82,7 @@ namespace fubu.Testing.Applications
 
 
     [TestFixture]
-    public class when_starting_an_application_runner_and_the_application_fails : InteractionContext<ApplicationRunner>
+    public class when_starting_an_application_runner_and_the_application_fails : InteractionContext<KayakApplicationRunner>
     {
         private IApplicationSource theSource;
         private ApplicationSettings theSettings;
@@ -125,7 +125,7 @@ namespace fubu.Testing.Applications
 
 
     [TestFixture]
-    public class when_starting_an_application_runner_successfully : InteractionContext<ApplicationRunner>
+    public class when_starting_an_application_runner_successfully : InteractionContext<KayakApplicationRunner>
     {
         private IApplicationSource theSource;
         private ApplicationSettings theSettings;
