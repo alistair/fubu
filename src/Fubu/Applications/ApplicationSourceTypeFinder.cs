@@ -10,15 +10,24 @@ namespace Fubu.Applications
 {
     public class ApplicationSourceTypeFinder : IApplicationSourceTypeFinder
     {
-        public IEnumerable<Type> FindApplicationSourceTypes()
+        public IEnumerable<Type> FindApplicationSourceTypes(ApplicationSettings settings)
         {
-            return AssembliesFromApplicationBaseDirectory(
-                assem => assem.GetCustomAttributes(typeof (FubuAppAttribute), true).Any())
+            var assemblies = AssembliesFromApplicationBaseDirectory(AssemblyMatches);
+            if (!assemblies.Any())
+            {
+                var assemblyName = Path.GetFileName(settings.GetApplicationFolder());
+                assemblies = AssembliesFromApplicationBaseDirectory(x => x.GetName().Name == assemblyName);
+            }
+
+            return assemblies
                 .SelectMany(x => x.GetExportedTypes())
                 .Where(x => x.CanBeCastTo<IApplicationSource>() && x.IsConcreteWithDefaultCtor());
         }
-        
 
+        public static bool AssemblyMatches(Assembly assembly)
+        {
+            return assembly.GetCustomAttributes(typeof (FubuAppAttribute), true).Any();
+        }
 
         // TODO -- this is all ripped from StructureMap, but put in FubuCore
         public IEnumerable<Assembly> AssembliesFromApplicationBaseDirectory(Predicate<Assembly> assemblyFilter)

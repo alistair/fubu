@@ -28,7 +28,7 @@ namespace Fubu.Applications
                 return Type.GetType(settings.ApplicationSourceName);
             }
 
-            var types = _typeFinder.FindApplicationSourceTypes();
+            var types = _typeFinder.FindApplicationSourceTypes(settings);
             theResponse.ApplicationSourceTypes = types.Select(x => x.AssemblyQualifiedName).ToArray();
 
             if (!types.Any()) return null;

@@ -44,6 +44,7 @@ namespace Fubu
                 Console.ResetColor();
                 return 1;
             }
+
             return success ? 0 : 1;
         }
     }

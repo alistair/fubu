@@ -40,7 +40,7 @@ namespace fubu.Testing.Applications
                                ApplicationSourceName = null
                            };
 
-            _theTypeFinder.Stub(x => x.FindApplicationSourceTypes())
+            _theTypeFinder.Stub(x => x.FindApplicationSourceTypes(settings))
                 .Return(new Type[0]);
 
             ClassUnderTest.FindSource(settings, theResponse).ShouldBeNull();
@@ -55,7 +55,7 @@ namespace fubu.Testing.Applications
                 ApplicationSourceName = null
             };
 
-            _theTypeFinder.Stub(x => x.FindApplicationSourceTypes())
+            _theTypeFinder.Stub(x => x.FindApplicationSourceTypes(settings))
                 .Return(new Type[]{typeof (Source2)});
 
             ClassUnderTest.FindSource(settings, theResponse).ShouldBeOfType<Source2>();
@@ -72,7 +72,7 @@ namespace fubu.Testing.Applications
                            };
 
             var sourceTypes = new Type[] { typeof(Source1), typeof(Source2), typeof(Source3) };
-            _theTypeFinder.Stub(x => x.FindApplicationSourceTypes())
+            _theTypeFinder.Stub(x => x.FindApplicationSourceTypes(settings))
                 .Return(sourceTypes);
 
             ClassUnderTest.FindSource(settings, theResponse).ShouldBeOfType<Source3>();
