@@ -88,6 +88,7 @@
     <Compile Include="Applications\IApplicationSourceFinder.cs" />
     <Compile Include="Applications\IApplicationSourceTypeFinder.cs" />
     <Compile Include="Applications\KayakCommand.cs" />
+    <Compile Include="Applications\AppInput.cs" />
     <Compile Include="Applications\RecycleResponse.cs" />
     <Compile Include="IncludeWebContentCommand.cs" />
     <Compile Include="InstallPackageCommand.cs" />

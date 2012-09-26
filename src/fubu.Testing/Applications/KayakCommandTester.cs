@@ -1,11 +1,11 @@
 using System;
+using System.Collections.Generic;
 using Fubu.Applications;
 using FubuCore;
 using FubuMVC.Core;
 using FubuMVC.StructureMap;
-using NUnit.Framework;
 using FubuTestingSupport;
-using System.Collections.Generic;
+using NUnit.Framework;
 using StructureMap;
 
 namespace fubu.Testing.Applications
@@ -13,15 +13,13 @@ namespace fubu.Testing.Applications
     [TestFixture]
     public class KayakCommandTester
     {
-        private FileSystem theFileSystem;
-        private string aSpecificLocation;
-        private ApplicationSettings theOriginalSettings;
+        #region Setup/Teardown
 
         [SetUp]
         public void SetUp()
         {
             theFileSystem = new FileSystem();
-        
+
             theFileSystem.DeleteDirectory("fake-app");
             theFileSystem.CreateDirectory("fake-app");
 
@@ -33,82 +31,52 @@ namespace fubu.Testing.Applications
             theOriginalSettings.Write();
 
             aSpecificLocation = theOriginalSettings.GetFileName();
-
-
         }
 
-        [Test]
-        public void find_settings_for_a_specific_app_settings_file_that_exists()
-        {
-            var input = new KayakInput{
-                Location = aSpecificLocation
-            };
+        #endregion
 
-            var settings = KayakCommand.FindSettings(input);
-
-            settings.ApplicationSourceName.ShouldEqual(theOriginalSettings.ApplicationSourceName);
-            settings.Name.ShouldEqual(theOriginalSettings.Name);
-        }
+        private FileSystem theFileSystem;
+        private string aSpecificLocation;
+        private ApplicationSettings theOriginalSettings;
 
 
         [Test]
         public void find_settings_for_a_folder_if_there_is_only_one_settings_file()
         {
-            var input = new KayakInput
+            var input = new AppInput
             {
                 Location = theOriginalSettings.ParentFolder
             };
 
-            var settings = KayakCommand.FindSettings(input);
+            ApplicationSettings settings = input.FindSettings();
 
             settings.ApplicationSourceName.ShouldEqual(theOriginalSettings.ApplicationSourceName);
             settings.Name.ShouldEqual(theOriginalSettings.Name);
         }
 
         [Test]
-        public void undeterministic_application_with_a_directory_and_multiple_settings()
+        public void find_settings_for_a_specific_app_settings_file_that_exists()
         {
-            var additionalSettings = ApplicationSettings.For<KayakApplication>();
-            additionalSettings.ParentFolder = "fake-app".ToFullPath();
-            additionalSettings.Name = "SomethingElse";
-            
-            additionalSettings.Write();
-
-            var input = new KayakInput
+            var input = new AppInput
             {
-                Location = theOriginalSettings.ParentFolder
+                Location = aSpecificLocation
             };
 
-            KayakCommand.FindSettings(input).ShouldBeNull();
-        }
+            ApplicationSettings settings = input.FindSettings();
 
-        [Test]
-        public void no_application_files_exist_so_try_settings_with_just_the_physical_path()
-        {
-            theFileSystem.DeleteFile(theOriginalSettings.GetFileName());
-
-            var input = new KayakInput
-            {
-                Location = theOriginalSettings.ParentFolder
-            };
-
-            var settings = KayakCommand.FindSettings(input);
-            settings.ApplicationSourceName.ShouldBeNull();
-            settings.Name.ShouldBeNull();
-            settings.PhysicalPath.ShouldEqual(input.Location);
-            settings.ParentFolder.ShouldEqual(input.Location);
-
+            settings.ApplicationSourceName.ShouldEqual(theOriginalSettings.ApplicationSourceName);
+            settings.Name.ShouldEqual(theOriginalSettings.Name);
         }
 
         [Test]
         public void location_is_app_name()
         {
-            var input = new KayakInput
+            var input = new AppInput
             {
                 Location = theOriginalSettings.Name
             };
 
-            var settings = KayakCommand.FindSettings(input);
+            ApplicationSettings settings = input.FindSettings();
 
             settings.ApplicationSourceName.ShouldEqual(theOriginalSettings.ApplicationSourceName);
             settings.Name.ShouldEqual(theOriginalSettings.Name);
@@ -120,22 +88,63 @@ namespace fubu.Testing.Applications
             theFileSystem.FindFiles(".".ToFullPath(), ApplicationSettings.FileSearch())
                 .Each(x => theFileSystem.DeleteFile(x));
 
-            var settings = KayakCommand.FindSettings(new KayakInput{
+            var appInput = new AppInput
+            {
                 Location = null
-            });
+            };
+
+            ApplicationSettings settings = appInput.FindSettings();
             settings.PhysicalPath.ShouldEqual(".".ToFullPath());
             settings.ParentFolder.ShouldEqual(".".ToFullPath());
+        }
+
+        [Test]
+        public void no_application_files_exist_so_try_settings_with_just_the_physical_path()
+        {
+            theFileSystem.DeleteFile(theOriginalSettings.GetFileName());
+
+            var input = new AppInput
+            {
+                Location = theOriginalSettings.ParentFolder
+            };
+
+            ApplicationSettings settings = input.FindSettings();
+            settings.ApplicationSourceName.ShouldBeNull();
+            settings.Name.ShouldBeNull();
+            settings.PhysicalPath.ShouldEqual(input.Location);
+            settings.ParentFolder.ShouldEqual(input.Location);
+        }
+
+        [Test]
+        public void undeterministic_application_with_a_directory_and_multiple_settings()
+        {
+            ApplicationSettings additionalSettings = ApplicationSettings.For<KayakApplication>();
+            additionalSettings.ParentFolder = "fake-app".ToFullPath();
+            additionalSettings.Name = "SomethingElse";
+
+            additionalSettings.Write();
+
+            var input = new AppInput
+            {
+                Location = theOriginalSettings.ParentFolder
+            };
+
+            input.FindSettings().ShouldBeNull();
         }
     }
 
     public class KayakApplication : IApplicationSource
     {
+        #region IApplicationSource Members
+
         public FubuApplication BuildApplication()
         {
             return FubuApplication
                 .For<KayakRegistry>()
                 .StructureMap(new Container());
         }
+
+        #endregion
     }
 
     public class KayakRegistry : FubuRegistry
@@ -169,7 +178,7 @@ namespace fubu.Testing.Applications
 
         public IDictionary<string, object> post_name(NameModel model)
         {
-            return new Dictionary<string, object> { { "name", model.Name } };
+            return new Dictionary<string, object> {{"name", model.Name}};
         }
     }
 }
