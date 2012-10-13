@@ -154,8 +154,6 @@ namespace fubu.Testing.Applications
             Routes.HomeIs<SayHelloController>(x => x.Hello());
 
             Actions.IncludeClassesSuffixedWithController();
-
-            Views.TryToAttachWithDefaultConventions();
         }
     }
 
