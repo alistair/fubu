@@ -72,9 +72,6 @@
       <HintPath>..\packages\Kayak.0.7.2\lib\Kayak.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Build.Engine" />
-    <Reference Include="Milkman">
-      <HintPath>..\packages\Milkman.0.9.1.51538\lib\Milkman.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.4.5.9\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -163,6 +160,7 @@
     <Compile Include="Templating\Steps\UnzipTemplate.cs" />
     <Compile Include="Templating\TemplatePlan.cs" />
     <Compile Include="Templating\TemplatePlanContext.cs" />
+    <Compile Include="VdirCommand.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
