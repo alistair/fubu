@@ -23,7 +23,7 @@ namespace fubu.Testing
                 try
                 {
                     var usageGraph = new UsageGraph(t);
-                    usageGraph.WriteUsages();
+                    usageGraph.WriteUsages("fubu");
 
                     Assert.IsTrue(usageGraph.Usages.Any(), "Found usages for " + t.FullName);
                 }
@@ -37,7 +37,7 @@ namespace fubu.Testing
         [Test]
         public void vdir()
         {
-            new UsageGraph(typeof(CreateVdirCommand)).WriteUsages();
+            new UsageGraph(typeof(CreateVdirCommand)).WriteUsages("fubu");
         }
 
         public class FakeInput{}
