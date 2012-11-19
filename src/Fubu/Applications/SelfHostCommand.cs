@@ -305,7 +305,7 @@ namespace Fubu.Applications
 
         public void RunApplication(int port, Action<FubuRuntime> onstartup)
         {
-            _server = new SelfHostHttpServer(port);
+            _server = new SelfHostHttpServer(port, _settings.GetApplicationFolder());
             Recycle(onstartup);
         }
 
@@ -317,7 +317,7 @@ namespace Fubu.Applications
         public void Recycle(Action<FubuRuntime> action)
         {
             var runtime = _source.BuildApplication().Bootstrap();
-            _server.Start(runtime, _settings.GetApplicationFolder());
+            _server.Start(runtime);
 
             action(runtime);
         }
