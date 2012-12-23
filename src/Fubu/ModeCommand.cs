@@ -25,17 +25,17 @@ namespace Fubu
         {
             if (input.ClearFlag)
             {
-                FubuMode.ClearEnvironmentVariable();
+                FubuMode.Reset();
             }
 
             if (input.DevFlag)
             {
-                FubuMode.SetEnvironmentVariable(FubuMode.Development);
+                FubuMode.Detector.SetMode(FubuMode.Development);
             }
 
             if (input.ModeFlag.IsNotEmpty())
             {
-                FubuMode.SetEnvironmentVariable(input.ModeFlag);
+                FubuMode.Detector.SetMode(input.ModeFlag);
             }
 
             FubuMode.Reset();

@@ -22,7 +22,7 @@ namespace fubu.Testing
         [TestFixtureTearDown]
         public void FixtureTeardown()
         {
-            FubuMode.SetEnvironmentVariable(originalMode);
+            FubuMode.Detector.SetMode(originalMode);
         }
 
         [Test]
