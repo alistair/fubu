@@ -25,7 +25,7 @@ namespace Fubu
         {
             if (input.ClearFlag)
             {
-                FubuMode.Reset();
+                FubuMode.Detector.SetMode(string.Empty);
             }
 
             if (input.DevFlag)
