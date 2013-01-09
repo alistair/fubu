@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using FubuCore;
 using FubuMVC.Core;
+using FubuMVC.Core.Registration;
 
 namespace Fubu.Applications
 {
@@ -12,21 +13,17 @@ namespace Fubu.Applications
     {
         public IEnumerable<Type> FindApplicationSourceTypes(ApplicationSettings settings)
         {
-            var assemblies = AssembliesFromApplicationBaseDirectory(AssemblyMatches);
+            var assemblies = AssembliesFromApplicationBaseDirectory(x => true);
             if (!assemblies.Any())
             {
                 var assemblyName = Path.GetFileName(settings.GetApplicationFolder());
                 assemblies = AssembliesFromApplicationBaseDirectory(x => x.GetName().Name == assemblyName);
             }
 
-            return assemblies
-                .SelectMany(x => x.GetExportedTypes())
-                .Where(x => x.CanBeCastTo<IApplicationSource>() && x.IsConcreteWithDefaultCtor());
-        }
+            var types = new TypePool {IgnoreExportTypeFailures = true};
+            types.AddAssemblies(assemblies);
 
-        public static bool AssemblyMatches(Assembly assembly)
-        {
-            return assembly.GetCustomAttributes(typeof (FubuAppAttribute), true).Any();
+            return types.TypesMatching(x => x.CanBeCastTo<IApplicationSource>() && x.IsConcreteWithDefaultCtor());
         }
 
         // TODO -- this is all ripped from StructureMap, but put in FubuCore
