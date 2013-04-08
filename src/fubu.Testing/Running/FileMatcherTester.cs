@@ -63,5 +63,26 @@ namespace fubu.Testing.Running
         {
             theMatcher.CategoryFor("foo.txt").ShouldEqual(FileChangeCategory.Nothing);
         }
+
+        [Test]
+        public void build_exact_match()
+        {
+            FileMatcher.Build("web.config=AppDomain")
+                       .ShouldEqual(new ExactFileMatch(FileChangeCategory.AppDomain, "web.config"));
+        }
+
+        [Test]
+        public void build_extension_match()
+        {
+            FileMatcher.Build("*.spark=Content")
+                       .ShouldEqual(new ExtensionMatch(FileChangeCategory.Content, "*.spark"));
+        }
+
+        [Test]
+        public void build_ends_with_match()
+        {
+            FileMatcher.Build("*.asset.config=Application")
+                       .ShouldEqual(new EndsWithPatternMatch(FileChangeCategory.Application, "*.asset.config"));
+        }
     }
 }

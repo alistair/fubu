@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using FubuCore;
 using FubuCore.Util;
 using System.Linq;
 
@@ -38,6 +40,26 @@ namespace Fubu.Running
         public void Add(IFileMatch match)
         {
             _matchers[match.Category].Add(match);
+        }
+
+        public static IFileMatch Build(string text)
+        {
+            var parts = text.Split('=');
+            var category = Enum.Parse(typeof (FileChangeCategory), parts.Last(), true)
+                .As<FileChangeCategory>();
+            var pattern = parts.First();
+
+            if (!pattern.StartsWith("*"))
+            {
+                return new ExactFileMatch(category, pattern);
+            }
+            
+            if (pattern.Split('.').Count() > 2)
+            {
+                return new EndsWithPatternMatch(category, pattern);
+            }
+
+            return new ExtensionMatch(category, pattern);
         }
     }
 }
