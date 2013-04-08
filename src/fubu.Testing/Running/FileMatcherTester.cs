@@ -1,4 +1,5 @@
 ﻿using Fubu.Running;
+using FubuCore;
 using NUnit.Framework;
 using FubuTestingSupport;
 
@@ -18,6 +19,28 @@ namespace fubu.Testing.Running
             theMatcher.Add(new ExtensionMatch(FileChangeCategory.Content, "*.css"));
             theMatcher.Add(new ExtensionMatch(FileChangeCategory.Content, "*.spark"));
 
+        }
+
+        [Test]
+        public void read_matcher_from_file_if_the_file_does_not_exist()
+        {
+            var matcher = FileMatcher.ReadFromFile("non-existent-file.txt");
+            matcher.ShouldNotBeNull();
+        }
+
+        [Test]
+        public void read_matcher_from_file()
+        {
+            new FileSystem().WriteStringToFile(FileMatcher.File, @"
+*.spark=Application
+*.css=Content
+");
+
+
+            var matcher = FileMatcher.ReadFromFile(FileMatcher.File);
+
+            matcher.MatchersFor(FileChangeCategory.Content).ShouldContain(new ExtensionMatch(FileChangeCategory.Content, "*.css"));
+            matcher.MatchersFor(FileChangeCategory.Application).ShouldContain(new ExtensionMatch(FileChangeCategory.Application, "*.spark"));
         }
 
         [Test]

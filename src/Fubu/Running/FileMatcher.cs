@@ -8,8 +8,25 @@ namespace Fubu.Running
 {
     public class FileMatcher
     {
+        public static readonly string File = "file-patterns.txt";
+
         private readonly Cache<FileChangeCategory, IList<IFileMatch>> _matchers = new Cache<FileChangeCategory, IList<IFileMatch>>(x => new List<IFileMatch>());
         private readonly Cache<string, FileChangeCategory> _results;
+
+        public static FileMatcher ReadFromFile(string file)
+        {
+            var system = new FileSystem();
+            var matcher = new FileMatcher();
+
+            system.ReadTextFile(file, text => {
+                if (text.IsEmpty()) return;
+
+                var match = Build(text);
+                matcher.Add(match);
+            });
+
+            return matcher;
+        }
 
         public FileMatcher()
         {
@@ -25,6 +42,11 @@ namespace Fubu.Running
             Add(new ExtensionMatch(FileChangeCategory.AppDomain, "*.exe"));
             Add(new ExtensionMatch(FileChangeCategory.AppDomain, "*.dll"));
         }
+
+        public IEnumerable<IFileMatch> MatchersFor(FileChangeCategory category)
+        {
+            return _matchers[category];
+        } 
 
         public FileChangeCategory CategoryFor(string file)
         {
