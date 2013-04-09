@@ -34,6 +34,9 @@
     <Reference Include="Bottles">
       <HintPath>..\packages\Bottles\lib\Bottles.dll</HintPath>
     </Reference>
+    <Reference Include="Bottles.Services">
+      <HintPath>..\packages\Bottles.Services\lib\net40\Bottles.Services.dll</HintPath>
+    </Reference>
     <Reference Include="FubuCore">
       <HintPath>..\packages\FubuCore\lib\FubuCore.dll</HintPath>
     </Reference>
@@ -116,6 +119,7 @@
     <Compile Include="Running\ExactFileMatchTester.cs" />
     <Compile Include="Running\ExtensionMatchTester.cs" />
     <Compile Include="Running\FileMatcherTester.cs" />
+    <Compile Include="Running\RemoteFubuMvcBootstrapperTester.cs" />
     <Compile Include="Templating\CloneGitRepositoryTester.cs" />
     <Compile Include="Templating\CsProjGathererTester.cs" />
     <Compile Include="Templating\GitAliasRegistryTester.cs" />

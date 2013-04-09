@@ -143,17 +143,22 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RestartCommand.cs" />
+    <Compile Include="Running\ApplicationSourceChooser.cs" />
     <Compile Include="Running\ApplicationStarted.cs" />
-    <Compile Include="Running\ApplicationUnderTestFinder.cs" />
+    <Compile Include="Running\ApplicationSourceFinder.cs" />
     <Compile Include="Running\ApplicationRequest.cs" />
     <Compile Include="Running\EndsWithPatternMatch.cs" />
     <Compile Include="Running\ExactFileMatch.cs" />
     <Compile Include="Running\ExtensionMatch.cs" />
     <Compile Include="Running\FileChangeCategory.cs" />
     <Compile Include="Running\FileMatcher.cs" />
-    <Compile Include="Running\IApplicationUnderTestFinder.cs" />
+    <Compile Include="Running\FubuMvcApplicationActivator.cs" />
+    <Compile Include="Running\IApplicationSourceFinder.cs" />
     <Compile Include="Running\IFileMatch.cs" />
+    <Compile Include="Running\IFubuMvcApplicationActivator.cs" />
+    <Compile Include="Running\IMessaging.cs" />
     <Compile Include="Running\InvalidApplication.cs" />
+    <Compile Include="Running\Messaging.cs" />
     <Compile Include="Running\RecycleApplication.cs" />
     <Compile Include="Running\RemoteFubuMvcBootstrapper.cs" />
     <Compile Include="Running\RemoteFubuMvcProxy.cs" />
@@ -186,9 +191,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
     <EmbeddedResource Include="Templating\Steps\rakerunner.rb" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

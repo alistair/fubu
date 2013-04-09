@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Fubu.Running
 {
-    public interface IApplicationUnderTestFinder
+    public interface IApplicationSourceFinder
     {
         IEnumerable<Type> Find();
 

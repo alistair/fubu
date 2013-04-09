@@ -9,7 +9,7 @@ using FubuMVC.Core.Registration;
 
 namespace Fubu.Running
 {
-    public class ApplicationUnderTestFinder : IApplicationUnderTestFinder
+    public class ApplicationSourceFinder : IApplicationSourceFinder
     {
         public IEnumerable<Type> Find()
         {
