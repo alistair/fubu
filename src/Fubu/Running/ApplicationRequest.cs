@@ -26,6 +26,11 @@ namespace Fubu.Running
 
         [Description("Overrides the directory that is the physical path of the running fubumvc application")]
         public string DirectoryFlag { get; set; } // This is mandatory
+
+        [Description("Start the default browser to the home page of this application")]
+        public bool OpenFlag { get; set; }
+
+
         public string DetermineBinPath()
         {
             var buildPath = DirectoryFlag.AppendPath("bin", BuildFlag);
