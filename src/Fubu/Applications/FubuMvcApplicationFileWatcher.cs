@@ -17,13 +17,13 @@ namespace Fubu.Applications
             _applicationDomain = applicationDomain;
         }
 
-        public void StartWatching(ApplicationSettings settings, IEnumerable<string> folders)
+        public void StartWatching(string physicalPath, IEnumerable<string> folders)
         {
             cleanUpWatchers();
 
             Console.WriteLine("Listening for file changes at");
 
-            addDirectory(settings.PhysicalPath);
+            addDirectory(physicalPath);
             folders.Each(addDirectory);
         }
 
@@ -105,6 +105,8 @@ namespace Fubu.Applications
                 x.EnableRaisingEvents = false;
                 x.SafeDispose();
             });
+
+            _watchers.Clear();
         }
     }
 }

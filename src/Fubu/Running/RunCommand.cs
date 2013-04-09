@@ -4,6 +4,8 @@ using System.Threading;
 using Bottles.Services.Messaging;
 using FubuCore;
 using FubuCore.CommandLine;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace Fubu.Running
 {
@@ -53,6 +55,12 @@ namespace Fubu.Running
         public void Receive(InvalidApplication message)
         {
             ConsoleWriter.Write(ConsoleColor.Red, message.Message);
+
+            if (message.Applications != null && message.Applications.Any())
+            {
+                Console.WriteLine("Found applications:  " + message.Applications.Join(", "));
+            }
+
             if (message.ExceptionText.IsNotEmpty())
             {
                 ConsoleWriter.Write(ConsoleColor.Yellow, message.ExceptionText);

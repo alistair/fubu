@@ -6,7 +6,12 @@ using System.Linq;
 
 namespace Fubu.Running
 {
-    public class FileMatcher
+    public interface IFileMatcher
+    {
+        FileChangeCategory CategoryFor(string file);
+    }
+
+    public class FileMatcher : IFileMatcher
     {
         public static readonly string File = "file-patterns.txt";
 

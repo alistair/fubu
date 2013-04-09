@@ -137,7 +137,7 @@ namespace Fubu.Applications
 
         private void setupWatchers(ApplicationSettings settings, ApplicationStartResponse response)
         {
-            _watcher.StartWatching(settings, response.BottleDirectories);
+            _watcher.StartWatching(settings.PhysicalPath, response.BottleDirectories);
         }
 
         public void RecycleContent()

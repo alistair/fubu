@@ -119,6 +119,7 @@
     <Compile Include="Running\ExactFileMatchTester.cs" />
     <Compile Include="Running\ExtensionMatchTester.cs" />
     <Compile Include="Running\FileMatcherTester.cs" />
+    <Compile Include="Running\FubuMvcApplicationFileWatcherTester.cs" />
     <Compile Include="Running\RemoteFubuMvcBootstrapperTester.cs" />
     <Compile Include="Templating\CloneGitRepositoryTester.cs" />
     <Compile Include="Templating\CsProjGathererTester.cs" />

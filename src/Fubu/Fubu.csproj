@@ -153,6 +153,8 @@
     <Compile Include="Running\FileChangeCategory.cs" />
     <Compile Include="Running\FileMatcher.cs" />
     <Compile Include="Running\FubuMvcApplicationActivator.cs" />
+    <Compile Include="Running\FubuMvcApplicationFileWatcher.cs" />
+    <Compile Include="Running\IApplicationObserver.cs" />
     <Compile Include="Running\IApplicationSourceFinder.cs" />
     <Compile Include="Running\IFileMatch.cs" />
     <Compile Include="Running\IFubuMvcApplicationActivator.cs" />
