@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Bottles;
 using Bottles.Diagnostics;
 using Bottles.Services.Messaging;
+using FubuMVC.Core;
 
 namespace Fubu.Running
 {
@@ -42,6 +43,17 @@ namespace Fubu.Running
         public void Receive(StartApplication message)
         {
             Console.WriteLine("Trying to start application " + message);
+
+            if (message.UseProductionMode)
+            {
+                Console.WriteLine("FubuMode = Production");
+                FubuMode.Reset();
+            }
+            else
+            {
+                Console.WriteLine("FubuMode = Development");
+                FubuMode.Mode(FubuMode.Development);
+            }
 
             var chooser = new ApplicationSourceChooser(_typeFinder, _messaging);
             chooser.Find(message, applicationType => {

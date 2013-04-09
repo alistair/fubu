@@ -1,13 +1,9 @@
-[0409/105023:INFO:chromedriver_server.cc(76)] Handling request: /status 
-[0409/105023:INFO:chromedriver_server.cc(81)] Done handling request: 200 {"sessionId":"","status":0,"value":{"build":{"version":"alpha"},"os":{"arch":"x86_64","name":"Windows NT","version":"6.1 SP1"}}}
-[0409/105024:INFO:chromedriver_server.cc(76)] Handling request: /session {"desiredCapabilities":{"browserName":"chrome","version":"","platform":"WINDOWS","javascriptEnabled":true,"chromeOptions":{"binary":"","args":[],"extensions":[]},"chrome.switches":[]}}
-[0409/105024:INFO:chrome_launcher.cc(74)] Using chrome from C:\Users\jeremill\AppData\Local\Google\Chrome\Application\chrome.exe
-[0409/105024:INFO:chromedriver_server.cc(81)] Done handling request: 303 
-[0409/105024:INFO:chromedriver_server.cc(76)] Handling request: /session/8fe17564c1ad7c25eb147da1ad905e5b 
-[0409/105024:INFO:chromedriver_server.cc(81)] Done handling request: 200 {"sessionId":"8fe17564c1ad7c25eb147da1ad905e5b","status":0,"value":{"acceptSslCerts":true,"applicationCacheEnabled":false,"browserConnectionEnabled":false,"browserName":"chrome","cssSelectorsEnabled":true,"databaseEnabled":true,"driverVersion":"0.7","handlesAlerts":true,"javascriptEnabled":true,"locationContextEnabled":true,"nativeEvents":true,"platform":"Windows NT","rotatable":false,"takesScreenshot":true,"version":"26.0.1410.43","webStorageEnabled":true}}
-[0409/105024:INFO:chromedriver_server.cc(76)] Handling request: /session/8fe17564c1ad7c25eb147da1ad905e5b/url {"url":"http://localhost:5500"}
-[0409/105025:INFO:chromedriver_server.cc(81)] Done handling request: 200 {"sessionId":"8fe17564c1ad7c25eb147da1ad905e5b","status":0,"value":null}
-[0409/105040:INFO:chromedriver_server.cc(76)] Handling request: /session/8fe17564c1ad7c25eb147da1ad905e5b/refresh 
-[0409/105040:INFO:chromedriver_server.cc(81)] Done handling request: 200 {"sessionId":"8fe17564c1ad7c25eb147da1ad905e5b","status":0,"value":null}
-[0409/105040:INFO:chromedriver_server.cc(76)] Handling request: /session/8fe17564c1ad7c25eb147da1ad905e5b/refresh 
-[0409/105040:INFO:chromedriver_server.cc(81)] Done handling request: 200 {"sessionId":"8fe17564c1ad7c25eb147da1ad905e5b","status":0,"value":null}
+[0409/151751:INFO:chromedriver_server.cc(76)] Handling request: /status 
+[0409/151751:INFO:chromedriver_server.cc(81)] Done handling request: 200 {"sessionId":"","status":0,"value":{"build":{"version":"alpha"},"os":{"arch":"x86_64","name":"Windows NT","version":"6.1 SP1"}}}
+[0409/151751:INFO:chromedriver_server.cc(76)] Handling request: /session {"desiredCapabilities":{"browserName":"chrome","version":"","platform":"WINDOWS","javascriptEnabled":true,"chromeOptions":{"binary":"","args":[],"extensions":[]},"chrome.switches":[]}}
+[0409/151751:INFO:chrome_launcher.cc(74)] Using chrome from C:\Users\jeremill\AppData\Local\Google\Chrome\Application\chrome.exe
+[0409/151752:INFO:chromedriver_server.cc(81)] Done handling request: 303 
+[0409/151752:INFO:chromedriver_server.cc(76)] Handling request: /session/f54847b51e73d245b0e57e825c40b90e 
+[0409/151752:INFO:chromedriver_server.cc(81)] Done handling request: 200 {"sessionId":"f54847b51e73d245b0e57e825c40b90e","status":0,"value":{"acceptSslCerts":true,"applicationCacheEnabled":false,"browserConnectionEnabled":false,"browserName":"chrome","cssSelectorsEnabled":true,"databaseEnabled":true,"driverVersion":"0.7","handlesAlerts":true,"javascriptEnabled":true,"locationContextEnabled":true,"nativeEvents":true,"platform":"Windows NT","rotatable":false,"takesScreenshot":true,"version":"26.0.1410.43","webStorageEnabled":true}}
+[0409/151752:INFO:chromedriver_server.cc(76)] Handling request: /session/f54847b51e73d245b0e57e825c40b90e/url {"url":"http://localhost:5500"}
+[0409/151752:INFO:chromedriver_server.cc(81)] Done handling request: 200 {"sessionId":"f54847b51e73d245b0e57e825c40b90e","status":0,"value":null}
