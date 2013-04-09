@@ -12,13 +12,17 @@
     <description>Command line tools for FubuMVC development</description>
     <tags>packaging areas slices</tags>
     <dependencies>
+      <dependency id="Bottles.Services" />
       <dependency id="FubuCore" version="0.9.9.149" />
+      <dependency id="FubuMVC.Katana" />
       <dependency id="HtmlTags" />
     </dependencies>
   </metadata>
   <files>
+    <file src="..\..\src\fubu\bin\release\fubu.exe" target="lib/net40" />
     <file src="ripple.xml" target="tools" />
     <file src="..\..\src\fubu\bin\release\fubu.exe" target="tools" />
     <file src="..\..\src\fubu\bin\release\*.dll" target="tools" />
+    <file src="..\..\src\fubu\bin\release\*.txt" target="tools" />
   </files>
 </package>
