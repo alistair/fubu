@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
+using System.Reflection;
 using System.Threading;
 using Bottles.Services.Messaging;
 using FubuCore;
@@ -16,7 +18,18 @@ namespace Fubu.Running
 
         static RunCommand()
         {
-            FileMatcher = FileMatcher.ReadFromFile(FileMatcher.File);
+            var location = Assembly.GetExecutingAssembly().Location;
+            var directory = Path.GetDirectoryName(location);
+            if (Directory.Exists(directory))
+            {
+                FileMatcher = FileMatcher.ReadFromFile(directory.AppendPath(FileMatcher.File));
+            }
+            else
+            {
+                FileMatcher = FileMatcher.ReadFromFile(FileMatcher.File);
+            }
+
+            
         }
 
         private readonly ManualResetEvent _reset = new ManualResetEvent(false);

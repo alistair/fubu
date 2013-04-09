@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using FubuCore;
+using FubuCore.CommandLine;
 
 namespace Fubu.Running
 {
@@ -67,6 +68,8 @@ namespace Fubu.Running
         public void ChangeFile(string filename)
         {
             var category = _matcher.CategoryFor(filename);
+
+            ConsoleWriter.Write(ConsoleColor.Gray, "Detected change to file " + filename);
 
             switch (category)
             {
