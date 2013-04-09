@@ -165,6 +165,7 @@
     <Compile Include="Running\InvalidApplication.cs" />
     <Compile Include="Running\Messaging.cs" />
     <Compile Include="Running\RecycleApplication.cs" />
+    <Compile Include="Running\RemoteApplication.cs" />
     <Compile Include="Running\RemoteFubuMvcBootstrapper.cs" />
     <Compile Include="Running\RemoteFubuMvcProxy.cs" />
     <Compile Include="Running\RunCommand.cs" />
