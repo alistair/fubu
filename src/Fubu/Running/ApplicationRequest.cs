@@ -3,9 +3,18 @@ using System.ComponentModel;
 using System.IO;
 using System.Security.Policy;
 using FubuCore;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Firefox;
 
 namespace Fubu.Running
 {
+    public enum BrowserType
+    {
+        Chrome,
+        Firefox
+    }
+
     public class ApplicationRequest
     {
         public ApplicationRequest()
@@ -30,6 +39,11 @@ namespace Fubu.Running
         [Description("Start the default browser to the home page of this application")]
         public bool OpenFlag { get; set; }
 
+        [Description("Open a 'watched' browser with WebDriver to refresh the page on content or application recycles")]
+        public bool WatchedFlag { get; set; }
+
+        [Description("Browser to use in watched.  Default is Firefox because it's more stable. ")]
+        public BrowserType BrowserFlag { get; set; }
 
         public string DetermineBinPath()
         {
@@ -46,6 +60,13 @@ namespace Fubu.Running
             }
 
             return null;
+        }
+
+        public IWebDriver BuildBrowser()
+        {
+            if (BrowserFlag == BrowserType.Firefox) return new FirefoxDriver();
+
+            return new ChromeDriver();
         }
     }
 }

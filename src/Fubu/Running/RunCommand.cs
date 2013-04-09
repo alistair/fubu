@@ -8,6 +8,8 @@ using FubuCore;
 using FubuCore.CommandLine;
 using System.Linq;
 using System.Collections.Generic;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Firefox;
 
 namespace Fubu.Running
 {
@@ -71,6 +73,7 @@ namespace Fubu.Running
             _reset.WaitOne();
         }
 
+        private IWebDriver _driver;
         public void Receive(ApplicationStarted message)
         {
             Console.WriteLine("Started application {0} at url {1} at {2}", message.ApplicationName, message.HomeAddress, message.Timestamp);
@@ -79,6 +82,19 @@ namespace Fubu.Running
             {
                 _opened = true;
                 Process.Start(message.HomeAddress);
+            }
+
+            if (_input.WatchedFlag)
+            {
+                if (_driver == null)
+                {
+                    _driver = _input.BuildBrowser();
+                    _driver.Navigate().GoToUrl(message.HomeAddress);
+                }
+                else
+                {
+                    _driver.Navigate().Refresh();
+                }
             }
 
             _watcher.StartWatching(_input.DirectoryFlag, message.BottleContentFolders);
@@ -105,7 +121,7 @@ namespace Fubu.Running
 
         public void RefreshContent()
         {
-            // TODO -- do something
+            if (_driver != null) _driver.Navigate().Refresh();
         }
 
         public void RecycleAppDomain()
