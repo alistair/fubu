@@ -56,13 +56,13 @@ namespace Fubu.Running
             var buildPath = DirectoryFlag.AppendPath("bin", BuildFlag);
             if (Directory.Exists(buildPath))
             {
-                return buildPath;
+                return Path.Combine("bin", BuildFlag);
             }
 
             var binPath = DirectoryFlag.AppendPath("bin");
             if (Directory.Exists(binPath))
             {
-                return binPath;
+                return "bin";
             }
 
             return null;
