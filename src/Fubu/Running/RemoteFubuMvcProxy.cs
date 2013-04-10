@@ -1,4 +1,5 @@
 ﻿using System;
+using Bottles;
 using Bottles.Services.Remote;
 using FubuMVC.Katana;
 using FubuMVC.OwinHost;
@@ -22,6 +23,7 @@ namespace Fubu.Running
                 x.RequireAssemblyContainingType<RemoteFubuMvcProxy>();
                 x.RequireAssemblyContainingType<RemoteServiceRunner>();
                 x.RequireAssemblyContainingType<Owin.IAppBuilder>();
+                x.RequireAssemblyContainingType<IActivator>(); // Bottles
                 x.RequireAssembly("Owin.Extensions");
                 x.RequireAssembly("Newtonsoft.Json");
                 x.RequireAssembly("FubuMVC.OwinHost");
