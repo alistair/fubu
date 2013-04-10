@@ -16,6 +16,7 @@
       <dependency id="FubuCore" version="0.9.9.149" />
       <dependency id="FubuMVC.Katana" />
       <dependency id="HtmlTags" />
+      <dependency id="Selenium.WebDriver" />
     </dependencies>
   </metadata>
   <files>

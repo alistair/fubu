@@ -1,6 +1,9 @@
 ﻿using System;
 using Bottles;
 using Bottles.Services.Remote;
+using FubuCore.Binding;
+using FubuLocalization;
+using FubuMVC.Core;
 using FubuMVC.Katana;
 using FubuMVC.OwinHost;
 
@@ -16,7 +19,7 @@ namespace Fubu.Running
             _request = request;
         }
 
-        public void Start(object listener)
+        public void Start(object listener, Action<RemoteDomainExpression> configuration = null)
         {
             _runner = RemoteServiceRunner.For<RemoteFubuMvcBootstrapper>(x => {
                 x.RequireAssemblyContainingType<EmbeddedFubuMvcServer>();
@@ -24,6 +27,10 @@ namespace Fubu.Running
                 x.RequireAssemblyContainingType<RemoteServiceRunner>();
                 x.RequireAssemblyContainingType<Owin.IAppBuilder>();
                 x.RequireAssemblyContainingType<IActivator>(); // Bottles
+                x.RequireAssemblyContainingType<IModelBinder>(); // FubuCore
+                x.RequireAssemblyContainingType<StringToken>(); // FubuLocalization
+                x.RequireAssemblyContainingType<FubuApplication>(); // FubuMVC.Core
+
                 x.RequireAssembly("Owin.Extensions");
                 x.RequireAssembly("Newtonsoft.Json");
                 x.RequireAssembly("FubuMVC.OwinHost");
@@ -33,6 +40,11 @@ namespace Fubu.Running
                 x.ServiceDirectory = _request.DirectoryFlag;
 
                 x.Setup.PrivateBinPath = _request.DetermineBinPath();
+
+                if (configuration != null)
+                {
+                    configuration(x);
+                }
 
                 Console.WriteLine("Assembly bin path is " + x.Setup.PrivateBinPath);
             });

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using Bottles.Services.Messaging;
+using Bottles.Services.Remote;
 using FubuCore;
 using FubuCore.CommandLine;
 using OpenQA.Selenium;
@@ -22,7 +23,7 @@ namespace Fubu.Running
         private bool _opened;
         private RemoteFubuMvcProxy _proxy;
         private FubuMvcApplicationFileWatcher _watcher;
-
+        private Action<RemoteDomainExpression> _configuration;
 
         static RemoteApplication()
         {
@@ -36,6 +37,16 @@ namespace Fubu.Running
             {
                 FileMatcher = FileMatcher.ReadFromFile(FileMatcher.File);
             }
+        }
+
+        public RemoteApplication()
+        {
+            _configuration = x => { };
+        }
+
+        public RemoteApplication(Action<RemoteDomainExpression> configuration)
+        {
+            _configuration = configuration;
         }
 
         public void RefreshContent()
@@ -119,7 +130,7 @@ namespace Fubu.Running
         {
             _reset.Reset();
             _proxy = new RemoteFubuMvcProxy(_input);
-            _proxy.Start(this);
+            _proxy.Start(this, _configuration);
 
             _reset.WaitOne();
         }
