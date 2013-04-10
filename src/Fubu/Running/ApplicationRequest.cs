@@ -23,7 +23,7 @@ namespace Fubu.Running
             PortFlag = 5500;
             DirectoryFlag = Environment.CurrentDirectory;
             BuildFlag = "Debug";
-            
+            BrowserFlag = BrowserType.Firefox;
         }
 
         [Description("If you are running a class library, sets the preference for the profile to load.  As in bin/[BuildFlag].  Default is debug")]

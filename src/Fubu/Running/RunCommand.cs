@@ -14,17 +14,27 @@ namespace Fubu.Running
             _application = new RemoteApplication();
             _application.Start(input);
 
-            Console.WriteLine("Press 'r' to recycle the application, anything else to quit");
+            tellUsersWhatToDo();
             ConsoleKeyInfo key = Console.ReadKey();
-            while (key.Key == ConsoleKey.R)
+            while (key.Key != ConsoleKey.Q)
             {
-                _application.RecycleAppDomain();
+                if (key.Key == ConsoleKey.R)
+                {
+                    _application.RecycleAppDomain();
 
-                key = Console.ReadKey();
+                    tellUsersWhatToDo();
+                    key = Console.ReadKey();
+                }
             }
 
+            _application.Shutdown();
 
             return true;
+        }
+
+        private static void tellUsersWhatToDo()
+        {
+            Console.WriteLine("Press 'q' to quit or 'r' to recycle the application");
         }
     }
 }

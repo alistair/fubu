@@ -134,5 +134,12 @@ namespace Fubu.Running
 
             _reset.WaitOne();
         }
+
+        public void Shutdown()
+        {
+            _watcher.StopWatching();
+            if (_driver != null) _driver.SafeDispose();
+            _proxy.SafeDispose();
+        }
     }
 }
