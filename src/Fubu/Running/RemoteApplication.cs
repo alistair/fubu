@@ -138,7 +138,11 @@ namespace Fubu.Running
         public void Shutdown()
         {
             _watcher.StopWatching();
-            if (_driver != null) _driver.SafeDispose();
+            if (_driver != null)
+            {
+                _driver.Close();
+                _driver.SafeDispose();
+            }
             _proxy.SafeDispose();
         }
     }
