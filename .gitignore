@@ -26,3 +26,6 @@ results
 *.DotSettings.user
 bottles.cmd
 fubu.cmd
+gems
+pkg
+lib

@@ -3,6 +3,8 @@ CLR_TOOLS_VERSION = "v4.0.30319"
 
 buildsupportfiles = Dir["#{File.dirname(__FILE__)}/buildsupport/*.rb"]
 
+require 'rubygems/package_task'
+
 if( ! buildsupportfiles.any? )
   # no buildsupport, let's go get it for them.
   sh 'git submodule update --init' unless buildsupportfiles.any?
@@ -91,6 +93,16 @@ def copyOutputFiles(fromDir, filePattern, outDir)
   } 
 end
 
+def cleanDirectory(dir)
+  FileUtils.rm_rf dir;
+  waitfor { !exists?(dir) }
+  Dir.mkdir dir
+end
+
+def cleanFile(file)
+  File.delete file unless !File.exist?(file)
+end
+
 desc "Runs unit tests"
 task :test => [:unit_test]
 
@@ -118,4 +130,42 @@ end
 def self.fubu(args)
   fubu = Platform.runtime("src/fubu/bin/#{COMPILE_TARGET}/fubu.exe")
   sh "#{fubu} #{args}"
+end
+
+desc "Creates the gem for fubu.exe"
+task :create_gem do
+	cleanDirectory 'bin';	
+	cleanDirectory 'pkg'
+	
+	File.delete "src/fubu/bin/#{COMPILE_TARGET}/fubu.vshost.exe" unless !File.exist?("src/fubu/bin/#{COMPILE_TARGET}/fubu.vshost.exe")
+	
+	copyOutputFiles "src/fubu/bin/#{COMPILE_TARGET}", '*.dll', 'bin'
+	copyOutputFiles "src/fubu/bin/#{COMPILE_TARGET}", '*.exe', 'bin'
+	
+	FileUtils.copy 'fubu', 'bin'
+	
+	Rake::Task[:gem].invoke
+end
+
+	spec = Gem::Specification.new do |s|
+	  s.platform    = Gem::Platform::RUBY
+	  s.name        = 'fubu'
+	  s.version     = BUILD_NUMBER
+	  s.files = Dir['bin/**/*']
+	  s.bindir = 'bin'
+	  s.executables << 'fubu'
+	  
+	  s.summary     = 'Command line tools for FubuMVC development'
+	  s.description = 'Command line tools for FubuMVC development'
+	  
+	  s.authors           = ['Jeremy D. Miller', 'Josh Arnold', 'Chad Myers', 'Joshua Flanagan']
+	  s.email             = 'fubumvc-devel@googlegroups.com'
+	  s.homepage          = 'http://fubu-project.org'
+	  s.rubyforge_project = 'fubu'
+	end
+
+
+Gem::PackageTask.new(spec) do |pkg|
+  pkg.need_zip = true
+  pkg.need_tar = true
 end
