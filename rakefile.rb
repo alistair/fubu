@@ -28,7 +28,7 @@ end
 
 desc "Replaces the existing installed gem with the new version for local testing"
 task :local_gem => [:create_gem] do
-	sh 'gem uninstall fubu'
+	sh 'gem uninstall fubu -a -x'
 	Dir.chdir 'pkg' do
 	    sh 'gem install fubu'
     end
@@ -45,15 +45,13 @@ task :dump_usages => [:compile] do
 end
 
 desc "Creates the gem for fubu.exe"
-task :create_gem => [:compile, :ilrepack] do
+task :create_gem => [:compile] do
     require "rubygems/package"
 	cleanDirectory 'bin';	
 	cleanDirectory 'pkg'
 	
-	File.delete "src/fubu/bin/#{COMPILE_TARGET}/fubu.vshost.exe" unless !File.exist?("src/fubu/bin/#{COMPILE_TARGET}/fubu.vshost.exe")
-	
-	copyOutputFiles "src/fubu/bin/#{COMPILE_TARGET}", '*.dll', 'bin'
-	copyOutputFiles "src/fubu/bin/#{COMPILE_TARGET}", '*.exe', 'bin'
+	copyOutputFiles "src/fubu/bin/#{@solution.compilemode}", '*.dll', 'bin'
+	copyOutputFiles "src/fubu/bin/#{@solution.compilemode}", 'fubu.exe', 'bin'
 	
 	FileUtils.copy 'fubu', 'bin'
 
@@ -61,7 +59,7 @@ task :create_gem => [:compile, :ilrepack] do
 	spec = Gem::Specification.new do |s|
 	  s.platform    = Gem::Platform::RUBY
 	  s.name        = 'fubu'
-	  s.version     = BUILD_NUMBER
+	  s.version     = @solution.options[:build_number]
 	  s.files = Dir['bin/**/*']
 	  s.bindir = 'bin'
 	  s.executables << 'fubu'
@@ -79,5 +77,8 @@ task :create_gem => [:compile, :ilrepack] do
     puts "=========="
 
     Gem::Package::build spec, true
+	
+	FileUtils.mv "fubu-#{@solution.options[:build_number]}.gem", "pkg/fubu-#{@solution.options[:build_number]}.gem"
+	
 end
 

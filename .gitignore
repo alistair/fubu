@@ -31,3 +31,4 @@ pkg
 lib
 logs
 Gemfile.lock
+*.gem
