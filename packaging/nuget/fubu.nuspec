@@ -21,7 +21,6 @@
   </metadata>
   <files>
     <file src="..\..\src\fubu\bin\release\fubu.exe" target="lib/net40" />
-    <file src="ripple.xml" target="tools" />
     <file src="..\..\src\fubu\bin\release\fubu.exe" target="tools" />
     <file src="..\..\src\fubu\bin\release\*.dll" target="tools" />
     <file src="..\..\src\fubu\bin\release\*.txt" target="tools" />
