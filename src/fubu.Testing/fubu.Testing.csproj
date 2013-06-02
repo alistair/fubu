@@ -84,6 +84,12 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http">
+      <HintPath>..\packages\Microsoft.Net.Http\lib\net40\System.Net.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+      <HintPath>..\packages\Microsoft.Net.Http\lib\net40\System.Net.Http.WebRequest.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="WebDriver">
@@ -119,7 +125,7 @@
     <Compile Include="usage_graph_smoke_tester.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config">
+    <None Include="ripple.dependencies.config">
       <SubType>Designer</SubType>
     </None>
     <None Include="Templating\repo.zip">

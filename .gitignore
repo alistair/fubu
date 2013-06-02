@@ -29,3 +29,5 @@ fubu.cmd
 gems
 pkg
 lib
+logs
+Gemfile.lock
