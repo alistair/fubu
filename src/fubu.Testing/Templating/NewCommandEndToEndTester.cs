@@ -121,14 +121,6 @@ namespace fubu.Testing.Templating
         }
 
         [Test]
-        public void should_not_copy_fuburake()
-        {
-            _fileSystem
-                .FileExists("Templating", "sample", AutoRunFubuRake.FubuRakeFile)
-                .ShouldBeFalse();
-        }
-
-        [Test]
         public void should_append_new_projects_to_existing_solution()
         {
             var lines = splitSolutionContents();

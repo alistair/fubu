@@ -27,7 +27,7 @@ namespace Fubu.Templating.Steps
                                    {
                                        DeepSearch = false,
                                        Include = "*.*",
-                                       Exclude = "*.exe;*.dll;.git;{0};{1};".ToFormat(FubuIgnoreFile, AutoRunFubuRake.FubuRakeFile)
+                                       Exclude = "*.exe;*.dll;.git;{0};{1};".ToFormat(FubuIgnoreFile)
                                    };
             var fubuIgnore = FileSystem.Combine(context.TempDir, FubuIgnoreFile);
             if(_fileSystem.FileExists(fubuIgnore))

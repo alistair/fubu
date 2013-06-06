@@ -35,15 +35,36 @@ namespace Fubu
 
         public override bool Execute(NewCommandInput input)
         {
+            var plan = BuildPlan(input);
+
+            var hasErrors = false;
+            PlanExecutor.Execute(input, plan, ctx => {
+                Console.ForegroundColor = ConsoleColor.Red;
+                ctx.Errors.Each(error => Console.WriteLine(error));
+                Console.ForegroundColor = ConsoleColor.White;
+                hasErrors = ctx.Errors.Any();
+            });
+
+            if (hasErrors)
+            {
+                return false;
+            }
+
+            Console.WriteLine("Solution {0} created", input.ProjectName);
+            return true;
+        }
+
+        public TemplatePlan BuildPlan(NewCommandInput input)
+        {
             var plan = new TemplatePlan();
             var findContentStep = input.GitFlag.IsNotEmpty()
-                                      ? (ITemplateStep) new CloneGitRepository(ProcessFactory, FileSystem)
-                                      : new UnzipTemplate(ZipService);
-            
+                                                ? (ITemplateStep) new CloneGitRepository(ProcessFactory, FileSystem)
+                                                : new UnzipTemplate(ZipService);
+
             plan.AddStep(findContentStep);
             plan.AddStep(new ReplaceKeywords(KeywordReplacer, FileSystem));
-            
-            if(input.SolutionFlag.IsNotEmpty())
+
+            if (input.SolutionFlag.IsNotEmpty())
             {
                 plan.AddStep(new ModifySolution(SolutionFileService, CsProjGatherer));
             }
@@ -55,25 +76,9 @@ namespace Fubu
                 plan.AddStep(new RunRakeFile(FileSystem, RakeRunner));
             }
 
-            plan.AddStep(new AutoRunFubuRake(FileSystem, RakeRunner));
             plan.AddStep(new RemoveTemporaryContent());
 
-            var hasErrors = false;
-            PlanExecutor.Execute(input, plan, ctx =>
-                                                  {
-                                                      Console.ForegroundColor = ConsoleColor.Red;
-                                                      ctx.Errors.Each(error => Console.WriteLine(error));
-                                                      Console.ForegroundColor = ConsoleColor.White;
-                                                      hasErrors = ctx.Errors.Any();
-                                                  });
-
-            if (hasErrors)
-            {
-                return false;
-            }
-
-            Console.WriteLine("Solution {0} created", input.ProjectName);
-            return true;
+            return plan;
         }
     }
 }
