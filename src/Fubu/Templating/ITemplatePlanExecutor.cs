@@ -1,6 +1,8 @@
+
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using FubuCore;
 
 namespace Fubu.Templating
@@ -21,28 +23,20 @@ namespace Fubu.Templating
 
         public void Execute(NewCommandInput input, TemplatePlan plan, Action<TemplatePlanContext> continuation)
         {
-            var context = new TemplatePlanContext
-                              {
-                                  Input = input,
-                                  TempDir = createTempDir()
-                              };
+            var context = BuildContext(input);
 
-            _fileSystem.CreateDirectory(context.TempDir);
-
-            var targetPath = input.ProjectName;
-            if(input.OutputFlag.IsNotEmpty())
-            {
-                targetPath = input.OutputFlag;
-            }
-            else if(input.SolutionFlag.IsNotEmpty())
-            {
-                targetPath = _fileSystem.GetDirectory(input.SolutionFlag);
-            }
-
-            context.TargetPath = Path.Combine(Environment.CurrentDirectory, targetPath);
-            
             plan.Preview(context);
 
+            runSteps(plan, context);
+
+            plan.Steps.OfType<IDisposable>().Each(x => x.SafeDispose());
+
+            continuation(context);
+            _fileSystem.DeleteDirectory(context.TempDir);
+        }
+
+        private static void runSteps(TemplatePlan plan, TemplatePlanContext context)
+        {
             try
             {
                 plan
@@ -54,9 +48,30 @@ namespace Fubu.Templating
                 context.RegisterError(exc.Message);
                 context.RegisterError(exc.StackTrace);
             }
+        }
 
-            continuation(context);
-            _fileSystem.DeleteDirectory(context.TempDir);
+        private TemplatePlanContext BuildContext(NewCommandInput input)
+        {
+            var context = new TemplatePlanContext
+            {
+                Input = input,
+                TempDir = createTempDir()
+            };
+
+            _fileSystem.CreateDirectory(context.TempDir);
+
+            var targetPath = input.ProjectName;
+            if (input.OutputFlag.IsNotEmpty())
+            {
+                targetPath = input.OutputFlag;
+            }
+            else if (input.SolutionFlag.IsNotEmpty())
+            {
+                targetPath = _fileSystem.GetDirectory(input.SolutionFlag);
+            }
+
+            context.TargetPath = Path.Combine(Environment.CurrentDirectory, targetPath);
+            return context;
         }
 
         // just a sanity check
