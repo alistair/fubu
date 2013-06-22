@@ -146,33 +146,10 @@
     <Compile Include="Running\RemoteFubuMvcProxy.cs" />
     <Compile Include="Running\RunCommand.cs" />
     <Compile Include="Running\StartApplication.cs" />
-    <Compile Include="Templating\CsProj.cs" />
-    <Compile Include="Templating\EnvironmentalStringExtensions.cs" />
-    <Compile Include="Templating\GitAliasRegistry.cs" />
-    <Compile Include="Templating\GuidKeywordPolicy.cs" />
-    <Compile Include="Templating\ICsProjGatherer.cs" />
-    <Compile Include="Templating\IKeywordPolicy.cs" />
-    <Compile Include="Templating\IKeywordReplacer.cs" />
-    <Compile Include="Templating\ITemplatePlanExecutor.cs" />
-    <Compile Include="Templating\ITemplateStep.cs" />
-    <Compile Include="Templating\KeywordReplacer.cs" />
-    <Compile Include="Templating\ISolutionFileService.cs" />
-    <Compile Include="Templating\Steps\CloneGitRepository.cs" />
-    <Compile Include="Templating\Steps\DirectoryExtensions.cs" />
-    <Compile Include="Templating\Steps\IRakeRunner.cs" />
-    <Compile Include="Templating\Steps\MoveContent.cs" />
-    <Compile Include="Templating\Steps\RemoveTemporaryContent.cs" />
-    <Compile Include="Templating\Steps\ReplaceKeywords.cs" />
-    <Compile Include="Templating\Steps\ModifySolution.cs" />
-    <Compile Include="Templating\Steps\RunRakeFile.cs" />
-    <Compile Include="Templating\Steps\UnzipTemplate.cs" />
-    <Compile Include="Templating\TemplatePlan.cs" />
-    <Compile Include="Templating\TemplatePlanContext.cs" />
     <Compile Include="VdirCommand.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <EmbeddedResource Include="Templating\Steps\rakerunner.rb" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="chromedriver.exe">

@@ -108,37 +108,12 @@
     <Compile Include="Running\FileMatcherTester.cs" />
     <Compile Include="Running\FubuMvcApplicationFileWatcherTester.cs" />
     <Compile Include="Running\RemoteFubuMvcBootstrapperTester.cs" />
-    <Compile Include="Templating\CloneGitRepositoryTester.cs" />
-    <Compile Include="Templating\CsProjGathererTester.cs" />
-    <Compile Include="Templating\GitAliasRegistryTester.cs" />
-    <Compile Include="Templating\GitAliasTokenTester.cs" />
-    <Compile Include="Templating\KeywordReplacerTester.cs" />
-    <Compile Include="Templating\NewCommandEndToEndTester.cs" />
-    <Compile Include="Templating\NewCommandTester.cs" />
-    <Compile Include="Templating\SolutionFileServiceTester.cs" />
-    <Compile Include="Templating\TemplatePlanExecutorTester.cs" />
-    <Compile Include="Templating\TemplatePlanTester.cs" />
-    <Compile Include="Templating\UnzipTemplateTester.cs" />
     <Compile Include="usage_graph_smoke_tester.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ripple.dependencies.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Templating\repo.zip">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Templating\data\example1\example1.csproj">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Templating\data\myproject.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Templating\sample\myproject.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Packages\" />
