@@ -41,7 +41,7 @@
       <HintPath>..\packages\FubuCore\lib\FubuCore.dll</HintPath>
     </Reference>
     <Reference Include="FubuCsProjFile">
-      <HintPath>..\..\..\FubuCsProjFile\src\FubuCsProjFile\bin\Debug\FubuCsProjFile.dll</HintPath>
+      <HintPath>..\packages\FubuCsProjFile\lib\net40\FubuCsProjFile.dll</HintPath>
     </Reference>
     <Reference Include="FubuLocalization">
       <HintPath>..\packages\FubuLocalization\lib\FubuLocalization.dll</HintPath>

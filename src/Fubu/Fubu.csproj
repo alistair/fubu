@@ -11,8 +11,7 @@
     <RootNamespace>Fubu</RootNamespace>
     <AssemblyName>Fubu</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
+    <TargetFrameworkProfile></TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -45,7 +44,7 @@
       <HintPath>..\packages\FubuCore\lib\FubuCore.dll</HintPath>
     </Reference>
     <Reference Include="FubuCsProjFile">
-      <HintPath>..\..\..\FubuCsProjFile\src\FubuCsProjFile\bin\Debug\FubuCsProjFile.dll</HintPath>
+      <HintPath>..\packages\FubuCsProjFile\lib\net40\FubuCsProjFile.dll</HintPath>
     </Reference>
     <Reference Include="FubuLocalization">
       <HintPath>..\packages\FubuLocalization\lib\FubuLocalization.dll</HintPath>
