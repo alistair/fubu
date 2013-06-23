@@ -1,4 +1,6 @@
-﻿namespace Fubu.Generation
+﻿using System.ComponentModel;
+
+namespace Fubu.Generation
 {
     /*
      * 
@@ -19,6 +21,9 @@
 
         // If this is blank, use this folder as the solution name too
         public string SolutionName { get; set; }
+
+        [Description("If chosen, fubu new will also create a single, empty FubuMVC application project with the same name")]
+        public bool AppFlag { get; set; }
 
         public bool CleanFlag { get; set; }
 

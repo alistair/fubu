@@ -49,6 +49,14 @@ namespace Fubu.Generation
 
             request.AddTemplate(_rippleTemplates[input.RippleFlag]);
 
+            if (input.AppFlag)
+            {
+                var project = new ProjectRequest {Name = input.SolutionName, Template = "fubumvc-empty"};
+                project.AddAlteration("structuremap");
+
+                request.AddProjectRequest(project);
+            }
+
             return request;
         }
 
