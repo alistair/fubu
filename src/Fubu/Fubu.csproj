@@ -44,6 +44,9 @@
     <Reference Include="FubuCore">
       <HintPath>..\packages\FubuCore\lib\FubuCore.dll</HintPath>
     </Reference>
+    <Reference Include="FubuCsProjFile">
+      <HintPath>..\..\..\FubuCsProjFile\src\FubuCsProjFile\bin\Debug\FubuCsProjFile.dll</HintPath>
+    </Reference>
     <Reference Include="FubuLocalization">
       <HintPath>..\packages\FubuLocalization\lib\FubuLocalization.dll</HintPath>
     </Reference>
@@ -113,8 +116,8 @@
     <Compile Include="IProcess.cs" />
     <Compile Include="IProcessFactory.cs" />
     <Compile Include="ModeCommand.cs" />
-    <Compile Include="NewCommand.cs" />
-    <Compile Include="NewCommandInput.cs" />
+    <Compile Include="Generation\NewCommand.cs" />
+    <Compile Include="Generation\NewCommandInput.cs" />
     <Compile Include="PackagesCommand.cs" />
     <Compile Include="PackagesInput.cs" />
     <Compile Include="ProcessFactory.cs" />

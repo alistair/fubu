@@ -19,7 +19,6 @@ namespace Fubu
             try
             {
                 var factory = new CommandFactory();
-                factory.RegisterCommands(typeof(AliasCommand).Assembly);
                 factory.RegisterCommands(typeof(IFubuCommand).Assembly);
                 factory.RegisterCommands(typeof(Program).Assembly);
 
