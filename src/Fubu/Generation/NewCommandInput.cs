@@ -11,6 +11,11 @@
 
     public class NewCommandInput
     {
+        public NewCommandInput()
+        {
+            RippleFlag = FeedChoice.PublicOnly;
+        }
+
 
         // If this is blank, use this folder as the solution name too
         public string SolutionName { get; set; }
@@ -27,12 +32,14 @@
 
 //        [Description("The name and destination folder of the new FubuMVC project")]
 //        public string ProjectName { get; set; }
+
+        public FeedChoice RippleFlag { get; set; }
     }
 
     public enum FeedChoice
     {
-        FloatingEdgeFubu,
-        EdgeFubu,
+        FloatingEdge,
+        Edge,
         PublicOnly
     }
 }

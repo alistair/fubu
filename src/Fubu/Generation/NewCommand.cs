@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using FubuCore.CommandLine;
 using FubuCsProjFile.Templating;
 using FubuCore;
@@ -8,15 +9,13 @@ namespace Fubu.Generation
     [CommandDescription("Creates a new FubuMVC solution", Name = "new")]
     public class NewCommand : FubuCommand<NewCommandInput>
     {
+        private static readonly IDictionary<FeedChoice, string> _rippleTemplates = new Dictionary<FeedChoice, string>{{FeedChoice.Edge, "edge-ripple"}, {FeedChoice.FloatingEdge, "floating-ripple"}, {FeedChoice.PublicOnly, "public-ripple"}}; 
+
         public override bool Execute(NewCommandInput input)
         {
             // Only supporting the "path is right underneath where I am right now"
             var library = LoadTemplates();
-            var request = new TemplateRequest
-            {
-                RootDirectory = ".".ToFullPath().AppendPath(input.SolutionName),
-                SolutionName = input.SolutionName
-            };
+            var request = BuildTemplateRequest(input);
 
             // TODO -- try to make clean work.  Use the ripple way
 //            if (input.CleanFlag)
@@ -38,6 +37,19 @@ namespace Fubu.Generation
 
 //            Console.WriteLine("Solution {0} created", input.ProjectName);
 //            return true;
+        }
+
+        public static TemplateRequest BuildTemplateRequest(NewCommandInput input)
+        {
+            var request = new TemplateRequest
+            {
+                RootDirectory = ".".ToFullPath().AppendPath(input.SolutionName),
+                SolutionName = input.SolutionName
+            };
+
+            request.AddTemplate(_rippleTemplates[input.RippleFlag]);
+
+            return request;
         }
 
         public static TemplateLibrary LoadTemplates()
