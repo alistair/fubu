@@ -67,6 +67,9 @@ task :create_gem => [:compile] do
 	  s.summary     = 'Command line tools for FubuMVC development'
 	  s.description = 'Command line tools for FubuMVC development'
 	  
+	  s.add_runtime_dependency "rake",["~>10.0"]
+	  s.add_runtime_dependency "bundler",[">=1.3.5"]
+	  
 	  s.authors           = ['Jeremy D. Miller', 'Josh Arnold', 'Chad Myers', 'Joshua Flanagan']
 	  s.email             = 'fubumvc-devel@googlegroups.com'
 	  s.homepage          = 'http://fubu-project.org'
