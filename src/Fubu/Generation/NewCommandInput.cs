@@ -25,6 +25,7 @@ namespace Fubu.Generation
         [Description("If chosen, fubu new will also create a single, empty FubuMVC application project with the same name")]
         public bool AppFlag { get; set; }
 
+        [Description("Clean out any existing contents of the target folder before running the templates")]
         public bool CleanFlag { get; set; }
 
 //        [FlagAlias("output", 'o')]
@@ -38,6 +39,7 @@ namespace Fubu.Generation
 //        [Description("The name and destination folder of the new FubuMVC project")]
 //        public string ProjectName { get; set; }
 
+        [Description("Choose a ripple configuration for only public Nuget feeds, including the Fubu TeamCity feed, or 'floating' on the Fubu edge")]
         public FeedChoice RippleFlag { get; set; }
     }
 

@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
 using FubuCore.CommandLine;
 using FubuCsProjFile.Templating;
 using FubuCore;
@@ -62,7 +64,14 @@ namespace Fubu.Generation
 
         public static TemplateLibrary LoadTemplates()
         {
-            var path = ".".ToFullPath()
+            var path = AppDomain.CurrentDomain.BaseDirectory.AppendPath("templates");
+            if (Directory.Exists(path))
+            {
+                return new TemplateLibrary(path);
+            }
+
+            // Testing mode.
+            path = ".".ToFullPath()
                           .ParentDirectory().ParentDirectory().ParentDirectory()
                           .ParentDirectory()
                           .AppendPath("templates");
