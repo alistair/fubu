@@ -10,18 +10,57 @@ using System.Linq;
 
 namespace Fubu.Generation
 {
-    [CommandDescription("Creates a new FubuMVC solution", Name = "new")]
+    [CommandDescription("Lays out and creates a new code tree with the idiomatic fubu project layout", Name = "new")]
     public class NewCommand : FubuCommand<NewCommandInput>
     {
-        private static readonly IDictionary<FeedChoice, string> _rippleTemplates = new Dictionary<FeedChoice, string>{{FeedChoice.Edge, "edge-ripple"}, {FeedChoice.FloatingEdge, "floating-ripple"}, {FeedChoice.PublicOnly, "public-ripple"}}; 
+        private static readonly IDictionary<FeedChoice, string> _rippleTemplates = new Dictionary<FeedChoice, string>{{FeedChoice.Edge, "edge-ripple"}, {FeedChoice.FloatingEdge, "floating-ripple"}, {FeedChoice.PublicOnly, "public-ripple"}};
+
+        public NewCommand()
+        {
+            Usage("default").Arguments(x => x.SolutionName);
+        }
 
         public override bool Execute(NewCommandInput input)
         {
-            // Only supporting the "path is right underneath where I am right now"
-            var library = LoadTemplates();
             var request = BuildTemplateRequest(input);
+            var plan = BuildTemplatePlan(request);
 
-            // TODO -- try to make clean work.  Use the ripple way
+            if (input.PreviewFlag)
+            {
+                Console.WriteLine("To solution directory " + input.SolutionDirectory());
+                Console.WriteLine();
+
+                plan.WritePreview();
+            }
+            else
+            {
+                prepareTargetDirectory(input, request);
+                plan.Execute();
+            }
+            
+
+
+
+            return true;
+        }
+
+        public static TemplatePlan BuildTemplatePlan(TemplateRequest request)
+        {
+            var library = LoadTemplates();
+            var planner = new TemplatePlanBuilder(library);
+
+            var plan = planner.BuildPlan(request);
+            if (plan.Steps.OfType<GemReference>().Any())
+            {
+                plan.Add(new BundlerStep());
+            }
+
+            plan.Add(new RakeStep());
+            return plan;
+        }
+
+        private static void prepareTargetDirectory(NewCommandInput input, TemplateRequest request)
+        {
             if (input.CleanFlag)
             {
                 new FileSystem().ForceClean(request.RootDirectory);
@@ -29,70 +68,6 @@ namespace Fubu.Generation
             else
             {
                 AssertEmpty(request.RootDirectory);
-            }
-
-            request.AddTemplate("baseline");
-
-            var planner = new TemplatePlanBuilder(library);
-
-            var plan = planner.BuildPlan(request);
-
-            plan.Execute();
-
-            
-            fetchGems(plan);
-            runRake(plan);
-
-            return true;
-        }
-
-        private void runRake(TemplatePlan plan)
-        {
-            var rake = new ProcessStartInfo
-            {
-                UseShellExecute = true,
-                FileName = "rake",
-                CreateNoWindow = true,
-                WorkingDirectory = plan.Root
-            };
-
-            Console.WriteLine("Attempting to run 'rake'");
-            var process = Process.Start(rake);
-            process.WaitForExit();
-
-            if (process.ExitCode != 0)
-            {
-                ConsoleWriter.Write(ConsoleColor.Yellow, "rake failed!");
-                throw new Exception("'rake' failed!  Try running rake from a command line to resolve any issues");
-            }
-
-            ConsoleWriter.Write(ConsoleColor.Green, "rake was successful");
-        }
-
-        private static void fetchGems(TemplatePlan plan)
-        {
-            if (plan.Steps.OfType<GemReference>().Any())
-            {
-                var bundler = new ProcessStartInfo
-                {
-                    UseShellExecute = true,
-                    FileName = "bundle",
-                    Arguments = "install",
-                    CreateNoWindow = true,
-                    WorkingDirectory = plan.Root
-                };
-
-                Console.WriteLine("Attempting to run bundle install");
-                var process = Process.Start(bundler);
-                process.WaitForExit();
-
-                if (process.ExitCode != 0)
-                {
-                    ConsoleWriter.Write(ConsoleColor.Yellow, "bundler failed!");
-                    throw new Exception("'bundle install' failed!  Try running bundler from a command line to resolve any issues");
-                }
-
-                ConsoleWriter.Write(ConsoleColor.Green, "bundler was successful");
             }
         }
 
@@ -125,6 +100,8 @@ namespace Fubu.Generation
 
                 request.AddProjectRequest(project);
             }
+
+            request.AddTemplate("baseline");
 
             return request;
         }

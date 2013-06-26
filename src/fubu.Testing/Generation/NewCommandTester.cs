@@ -100,6 +100,29 @@ namespace fubu.Testing.Generation
                 NewCommand.AssertEmpty("not-empty");
             });
         }
+
+        [Test]
+        public void adds_a_rake_step_to_the_plan()
+        {
+            NewCommand.BuildTemplatePlan(new TemplateRequest())
+                      .Steps.Last().ShouldBeOfType<RakeStep>();
+        }
+
+        [Test]
+        public void should_add_a_bundler_step_if_there_are_any_gem_references()
+        {
+            var request = new TemplateRequest
+            {
+                SolutionName = "Foo",
+                RootDirectory = "Foo"
+            };
+
+            request.AddTemplate("baseline");
+
+            NewCommand.BuildTemplatePlan(request)
+                      .Steps.OfType<BundlerStep>()
+                      .Count().ShouldEqual(1);
+        }
     }
 
     [TestFixture]

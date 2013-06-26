@@ -30,6 +30,9 @@ namespace Fubu.Generation
         [Description("Clean out any existing contents of the target folder before running the templates")]
         public bool CleanFlag { get; set; }
 
+        [Description("Only list a preview of the template plan, but do not execute the plan")]
+        public bool PreviewFlag { get; set; }
+
 //        [FlagAlias("output", 'o')]
 //        [Description("The output directory if different than the project name")]
 //        public string OutputFlag { get; set; }
