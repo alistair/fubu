@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using FubuCore.CommandLine;
@@ -38,14 +39,64 @@ namespace Fubu.Generation
 
             plan.Execute();
 
-            // TODO -- gonna prolly have to run rake
+            
+            fetchGems(plan);
+            runRake(plan);
 
             return true;
-
-//            Console.WriteLine("Solution {0} created", input.ProjectName);
-//            return true;
         }
 
+        private void runRake(TemplatePlan plan)
+        {
+            var rake = new ProcessStartInfo
+            {
+                UseShellExecute = true,
+                FileName = "rake",
+                CreateNoWindow = true,
+                WorkingDirectory = plan.Root
+            };
+
+            Console.WriteLine("Attempting to run 'rake'");
+            var process = Process.Start(rake);
+            process.WaitForExit();
+
+            if (process.ExitCode != 0)
+            {
+                ConsoleWriter.Write(ConsoleColor.Yellow, "rake failed!");
+                throw new Exception("'rake' failed!  Try running rake from a command line to resolve any issues");
+            }
+
+            ConsoleWriter.Write(ConsoleColor.Green, "rake was successful");
+        }
+
+        private static void fetchGems(TemplatePlan plan)
+        {
+            if (plan.Steps.OfType<GemReference>().Any())
+            {
+                var bundler = new ProcessStartInfo
+                {
+                    UseShellExecute = true,
+                    FileName = "bundle",
+                    Arguments = "install",
+                    CreateNoWindow = true,
+                    WorkingDirectory = plan.Root
+                };
+
+                Console.WriteLine("Attempting to run bundle install");
+                var process = Process.Start(bundler);
+                process.WaitForExit();
+
+                if (process.ExitCode != 0)
+                {
+                    ConsoleWriter.Write(ConsoleColor.Yellow, "bundler failed!");
+                    throw new Exception("'bundle install' failed!  Try running bundler from a command line to resolve any issues");
+                }
+
+                ConsoleWriter.Write(ConsoleColor.Green, "bundler was successful");
+            }
+        }
+
+ 
         public static void AssertEmpty(string directory)
         {
             if (Directory.Exists(directory))
