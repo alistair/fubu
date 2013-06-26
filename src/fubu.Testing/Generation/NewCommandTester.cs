@@ -1,4 +1,6 @@
-﻿using Fubu.Generation;
+﻿using System;
+using Fubu.Generation;
+using FubuCore;
 using FubuCsProjFile.Templating;
 using NUnit.Framework;
 using FubuTestingSupport;
@@ -70,6 +72,33 @@ namespace fubu.Testing.Generation
             var request = NewCommand.BuildTemplateRequest(input);
         
             request.Projects.Any().ShouldBeFalse();
+        }
+
+        [Test]
+        public void assert_folder_is_empty_does_not_blow_for_empty_target()
+        {
+            new FileSystem().DeleteDirectory("target");
+            new FileSystem().CreateDirectory("target");
+
+            NewCommand.AssertEmpty("target");
+        }
+
+        [Test]
+        public void assert_folder_is_empty_is_fine_when_directory_does_not_exist()
+        {
+            new FileSystem().DeleteDirectory("nonexistent");
+            NewCommand.AssertEmpty("nonexistent");
+        }
+
+        [Test]
+        public void assert_folder_blows_up_when_directory_is_not_empty()
+        {
+            new FileSystem().CreateDirectory("not-empty");
+            new FileSystem().WriteStringToFile("not-empty".AppendPath("foo.txt"), "anything");
+
+            Exception<InvalidOperationException>.ShouldBeThrownBy(() => {
+                NewCommand.AssertEmpty("not-empty");
+            });
         }
     }
 

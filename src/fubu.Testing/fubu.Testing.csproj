@@ -100,6 +100,7 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Generation\NewCommandInputTester.cs" />
     <Compile Include="Generation\NewCommandTester.cs" />
     <Compile Include="ModeCommandTester.cs" />
     <Compile Include="PackagesCommandTester.cs" />

@@ -5,6 +5,7 @@ using System.Reflection;
 using FubuCore.CommandLine;
 using FubuCsProjFile.Templating;
 using FubuCore;
+using System.Linq;
 
 namespace Fubu.Generation
 {
@@ -20,10 +21,14 @@ namespace Fubu.Generation
             var request = BuildTemplateRequest(input);
 
             // TODO -- try to make clean work.  Use the ripple way
-//            if (input.CleanFlag)
-//            {
-//                new FileSystem().CleanDirectory(request.RootDirectory);
-//            }
+            if (input.CleanFlag)
+            {
+                new FileSystem().ForceClean(request.RootDirectory);
+            }
+            else
+            {
+                AssertEmpty(request.RootDirectory);
+            }
 
             request.AddTemplate("baseline");
 
@@ -41,11 +46,22 @@ namespace Fubu.Generation
 //            return true;
         }
 
+        public static void AssertEmpty(string directory)
+        {
+            if (Directory.Exists(directory))
+            {
+                if (new FileSystem().FindFiles(directory, FileSet.Everything()).Any())
+                {
+                    throw new InvalidOperationException("Directory {0} is not empty!  Use the --clean flag to override this validation check to overwrite the contents of the solution".ToFormat(directory));
+                }
+            }
+        }
+
         public static TemplateRequest BuildTemplateRequest(NewCommandInput input)
         {
             var request = new TemplateRequest
             {
-                RootDirectory = ".".ToFullPath().AppendPath(input.SolutionName),
+                RootDirectory = input.SolutionDirectory(),
                 SolutionName = input.SolutionName
             };
 
