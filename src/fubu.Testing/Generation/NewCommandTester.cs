@@ -36,7 +36,22 @@ namespace fubu.Testing.Generation
             };
 
             var request = NewCommand.BuildTemplateRequest(input);
-            request.Projects.Single().Alterations.ShouldContain("common-assembly");
+            request.Projects.Single().Alterations.ShouldContain("baseline");
+        }
+
+        [Test]
+        public void supports_the_shortname_flag()
+        {
+            var input = new NewCommandInput
+            {
+                SolutionName = "FubuMVC.Scenarios",
+                AppFlag = true,
+                ShortNameFlag = "Foo"
+            };
+
+            var request = NewCommand.BuildTemplateRequest(input);
+
+            request.Projects.Single().Substitutions.ValueFor(ProjectPlan.SHORT_NAME).ShouldEqual("Foo");
         }
 
         [Test]

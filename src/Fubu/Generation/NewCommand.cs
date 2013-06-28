@@ -97,7 +97,12 @@ namespace Fubu.Generation
             {
                 var project = new ProjectRequest(input.SolutionName, "fubumvc-empty");
                 project.AddAlteration("structuremap");
-                project.AddAlteration("common-assembly");
+                project.AddAlteration("baseline");
+
+                if (input.ShortNameFlag.IsNotEmpty())
+                {
+                    project.Substitutions.Set(ProjectPlan.SHORT_NAME, input.ShortNameFlag);
+                }
 
                 request.AddProjectRequest(project);
             }

@@ -15,6 +15,9 @@ namespace Fubu.Generation
 
     public class NewCommandInput
     {
+        [Description("Used in many templates as a prefix for generted classes")]
+        public string ShortNameFlag { get; set; }
+
         public NewCommandInput()
         {
             RippleFlag = FeedChoice.PublicOnly;
