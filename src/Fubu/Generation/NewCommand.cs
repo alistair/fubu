@@ -95,8 +95,9 @@ namespace Fubu.Generation
 
             if (input.AppFlag)
             {
-                var project = new ProjectRequest {Name = input.SolutionName, Template = "fubumvc-empty"};
+                var project = new ProjectRequest(input.SolutionName, "fubumvc-empty");
                 project.AddAlteration("structuremap");
+                project.AddAlteration("common-assembly");
 
                 request.AddProjectRequest(project);
             }

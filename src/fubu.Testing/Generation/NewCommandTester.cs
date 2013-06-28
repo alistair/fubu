@@ -27,6 +27,19 @@ namespace fubu.Testing.Generation
         }
 
         [Test]
+        public void new_project_request_gets_the_assembly_version_alteration()
+        {
+            var input = new NewCommandInput
+            {
+                SolutionName = "NewThing",
+                AppFlag = true
+            };
+
+            var request = NewCommand.BuildTemplateRequest(input);
+            request.Projects.Single().Alterations.ShouldContain("common-assembly");
+        }
+
+        [Test]
         public void choose_the_float_ripple()
         {
             var input = new NewCommandInput
