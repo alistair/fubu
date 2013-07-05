@@ -36,10 +36,11 @@ namespace Fubu.Generation
             {
                 prepareTargetDirectory(input, request);
 
-                // TODO -- pull instructions out of the plan and call separately
                 plan.Execute();
 
                 new RakeStep().Alter(plan);
+
+                plan.WriteInstructions();
             }
             
 
@@ -106,6 +107,9 @@ namespace Fubu.Generation
                 {
                     project.Substitutions.Set(ProjectPlan.SHORT_NAME, input.ShortNameFlag);
                 }
+
+                // TODO -- hard-coded for now, but needs to change later when spark & razor are available
+                project.AddAlteration("no-views");
 
                 request.AddProjectRequest(project);
             }

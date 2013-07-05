@@ -56,6 +56,19 @@ namespace fubu.Testing.Generation
         }
 
         [Test]
+        public void add_no_views_home_page_if_there_are_no_views()
+        {
+            var input = new NewCommandInput
+            {
+                SolutionName = "FubuMVC.Scenarios",
+                AppFlag = true,
+            };
+
+            var request = NewCommand.BuildTemplateRequest(input);
+            request.Projects.Single().Alterations.ShouldContain("no-views");
+        }
+
+        [Test]
         public void choose_the_float_ripple()
         {
             var input = new NewCommandInput

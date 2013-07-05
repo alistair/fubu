@@ -2,9 +2,9 @@ using FubuMVC.Core;
 
 namespace %NAMESPACE%
 {
-	public class %SHORT_NAME%FubuRegistry : FubuRegistry
+	public class %FUBU_REGISTRY% : FubuRegistry
 	{
-		public %SHORT_NAME%FubuRegistry()
+		public %FUBU_REGISTRY%()
 		{
 			// Register any custom FubuMVC policies, inclusions, or 
 			// other FubuMVC configuration here
