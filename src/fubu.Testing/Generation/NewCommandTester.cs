@@ -2,6 +2,7 @@
 using Fubu.Generation;
 using FubuCore;
 using FubuCsProjFile.Templating;
+using FubuMVC.Core;
 using NUnit.Framework;
 using FubuTestingSupport;
 using System.Linq;
@@ -127,13 +128,6 @@ namespace fubu.Testing.Generation
             Exception<InvalidOperationException>.ShouldBeThrownBy(() => {
                 NewCommand.AssertEmpty("not-empty");
             });
-        }
-
-        [Test]
-        public void adds_a_rake_step_to_the_plan()
-        {
-            NewCommand.BuildTemplatePlan(new TemplateRequest())
-                      .Steps.Last().ShouldBeOfType<RakeStep>();
         }
 
         [Test]

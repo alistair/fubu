@@ -1,0 +1,1 @@
+StructureMap configuration is in the file %SHORT_NAME%Registry

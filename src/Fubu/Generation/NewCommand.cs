@@ -35,7 +35,11 @@ namespace Fubu.Generation
             else
             {
                 prepareTargetDirectory(input, request);
+
+                // TODO -- pull instructions out of the plan and call separately
                 plan.Execute();
+
+                new RakeStep().Alter(plan);
             }
             
 
@@ -55,7 +59,6 @@ namespace Fubu.Generation
                 plan.Add(new BundlerStep());
             }
 
-            plan.Add(new RakeStep());
             return plan;
         }
 
