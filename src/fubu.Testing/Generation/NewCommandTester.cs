@@ -37,7 +37,7 @@ namespace fubu.Testing.Generation
             };
 
             var request = NewCommand.BuildTemplateRequest(input);
-            request.Projects.Single().Alterations.ShouldContain("baseline");
+            request.Projects.Single().Template.ShouldContain("baseline");
         }
 
         [Test]
@@ -158,6 +158,41 @@ namespace fubu.Testing.Generation
                       .Steps.OfType<BundlerStep>()
                       .Count().ShouldEqual(1);
         }
+
+        [Test]
+        public void no_tests_if_no_tests_flag()
+        {
+            var input = new NewCommandInput
+            {
+                SolutionName = "NewThing",
+                AppFlag = true,
+                TestsFlag = false
+            };
+
+            var request = NewCommand.BuildTemplateRequest(input);
+            request.TestingProjects.Any().ShouldBeFalse();
+        }
+
+        [Test]
+        public void adds_in_the_testing_request_if_app_and_tests_are_selected()
+        {
+            var input = new NewCommandInput
+            {
+                SolutionName = "NewThing",
+                AppFlag = true,
+                TestsFlag = true
+            };
+
+            var request = NewCommand.BuildTemplateRequest(input);
+            var testingRequest = request.TestingProjects.Single();
+
+            testingRequest.ShouldNotBeNull();
+            testingRequest.OriginalProject.ShouldEqual("NewThing");
+            testingRequest.Name.ShouldEqual("NewThing.Testing");
+            testingRequest.Template.ShouldEqual("baseline");
+
+            testingRequest.Alterations.Single().ShouldEqual("unit-testing");
+        }
     }
 
     [TestFixture]
@@ -194,13 +229,19 @@ namespace fubu.Testing.Generation
         [Test]
         public void is_build_from_empty_fubumvc_app()
         {
-            project.Template.ShouldEqual("fubumvc-empty");
+            project.Template.ShouldEqual("baseline");
         }
 
         [Test]
         public void defaults_to_structuremap()
         {
             project.Alterations.ShouldContain("structuremap");
+        }
+
+        [Test]
+        public void has_empty_fubumvc()
+        {
+            project.Alterations.ShouldContain("fubumvc-empty");
         }
     }
 }

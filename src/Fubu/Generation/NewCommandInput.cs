@@ -36,6 +36,9 @@ namespace Fubu.Generation
         [Description("Only list a preview of the template plan, but do not execute the plan")]
         public bool PreviewFlag { get; set; }
 
+        [Description("Add a testing library for the project using the default FubuTestingSupport w/ NUnit")]
+        public bool TestsFlag { get; set; }
+
 //        [FlagAlias("output", 'o')]
 //        [Description("The output directory if different than the project name")]
 //        public string OutputFlag { get; set; }

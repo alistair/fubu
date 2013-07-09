@@ -99,24 +99,41 @@ namespace Fubu.Generation
 
             if (input.AppFlag)
             {
-                var project = new ProjectRequest(input.SolutionName, "fubumvc-empty");
-                project.AddAlteration("structuremap");
-                project.AddAlteration("baseline");
-
-                if (input.ShortNameFlag.IsNotEmpty())
+                var projectRequest = addApplicationProject(input, request);
+                if (input.TestsFlag)
                 {
-                    project.Substitutions.Set(ProjectPlan.SHORT_NAME, input.ShortNameFlag);
+                    var testing = new TestProjectRequest(projectRequest.Name + ".Testing", "baseline",
+                                                         projectRequest.Name);
+
+                    testing.AddAlteration("unit-testing");
+
+                    request.AddTestingRequest(testing);
                 }
 
-                // TODO -- hard-coded for now, but needs to change later when spark & razor are available
-                project.AddAlteration("no-views");
-
-                request.AddProjectRequest(project);
             }
 
             request.AddTemplate("baseline");
 
             return request;
+        }
+
+        private static ProjectRequest addApplicationProject(NewCommandInput input, TemplateRequest request)
+        {
+            var project = new ProjectRequest(input.SolutionName, "baseline");
+            project.AddAlteration("structuremap");
+            project.AddAlteration("fubumvc-empty");
+
+            if (input.ShortNameFlag.IsNotEmpty())
+            {
+                project.Substitutions.Set(ProjectPlan.SHORT_NAME, input.ShortNameFlag);
+            }
+
+            // TODO -- hard-coded for now, but needs to change later when spark & razor are available
+            project.AddAlteration("no-views");
+
+            request.AddProjectRequest(project);
+
+            return project;
         }
 
         public static TemplateLibrary LoadTemplates()
