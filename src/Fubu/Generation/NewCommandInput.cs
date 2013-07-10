@@ -25,6 +25,7 @@ namespace Fubu.Generation
 
 
         // If this is blank, use this folder as the solution name too
+        [Description("Name of the solution and the root folder without an extension")]
         public string SolutionName { get; set; }
 
         [Description("If chosen, fubu new will also create a single, empty FubuMVC application project with the same name")]
@@ -38,17 +39,6 @@ namespace Fubu.Generation
 
         [Description("Add a testing library for the project using the default FubuTestingSupport w/ NUnit")]
         public bool TestsFlag { get; set; }
-
-//        [FlagAlias("output", 'o')]
-//        [Description("The output directory if different than the project name")]
-//        public string OutputFlag { get; set; }
-
-//        [FlagAlias("solution", 's')]
-//        [Description("The Visual Studio solution file to modify to include templated projects")]
-//        public string SolutionFlag { get; set; }
-
-//        [Description("The name and destination folder of the new FubuMVC project")]
-//        public string ProjectName { get; set; }
 
         [Description("Choose a ripple configuration for only public Nuget feeds, including the Fubu TeamCity feed, or 'floating' on the Fubu edge")]
         public FeedChoice RippleFlag { get; set; }
