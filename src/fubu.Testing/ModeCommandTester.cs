@@ -6,7 +6,7 @@ using FubuTestingSupport;
 
 namespace fubu.Testing
 {
-    [TestFixture]
+    [TestFixture, Explicit("It's SLOW")]
     public class ModeCommandTester
     {
         private string originalMode;

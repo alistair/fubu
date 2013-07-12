@@ -40,6 +40,9 @@ namespace Fubu.Generation
         [Description("Add a testing library for the project using the default FubuTestingSupport w/ NUnit")]
         public bool TestsFlag { get; set; }
 
+        [Description("Ignore the presence of existing files")]
+        public bool IgnoreFlag { get; set; }
+
         [Description("Choose a ripple configuration for only public Nuget feeds, including the Fubu TeamCity feed, or 'floating' on the Fubu edge")]
         public FeedChoice RippleFlag { get; set; }
 

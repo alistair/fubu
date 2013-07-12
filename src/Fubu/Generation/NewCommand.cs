@@ -69,7 +69,7 @@ namespace Fubu.Generation
             {
                 new FileSystem().ForceClean(request.RootDirectory);
             }
-            else
+            else if (!input.IgnoreFlag)
             {
                 AssertEmpty(request.RootDirectory);
             }
@@ -80,7 +80,8 @@ namespace Fubu.Generation
         {
             if (Directory.Exists(directory))
             {
-                if (new FileSystem().FindFiles(directory, FileSet.Everything()).Any())
+                var files = new FileSystem().FindFiles(directory, FileSet.Everything());
+                if (files.Any())
                 {
                     throw new InvalidOperationException("Directory {0} is not empty!  Use the --clean flag to override this validation check to overwrite the contents of the solution".ToFormat(directory));
                 }
@@ -145,10 +146,19 @@ namespace Fubu.Generation
             }
 
             // Testing mode.
-            path = ".".ToFullPath()
+            path = Assembly.GetExecutingAssembly().Location.ToFullPath()
                           .ParentDirectory().ParentDirectory().ParentDirectory()
-                          .ParentDirectory()
+                          .ParentDirectory().ParentDirectory()
                           .AppendPath("templates");
+
+            if (!Directory.Exists(path))
+            {
+                path = AppDomain.CurrentDomain.BaseDirectory.ParentDirectory()
+                                .ParentDirectory()
+                                .ParentDirectory()
+                                .ParentDirectory()
+                                .AppendPath("templates");
+            }
 
             return new TemplateLibrary(path);
         }
