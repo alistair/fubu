@@ -18,6 +18,8 @@ namespace Fubu.Running
 
     public class ApplicationRequest
     {
+        private string _directoryFlag;
+
         public ApplicationRequest()
         {
             PortFlag = 5500;
@@ -36,7 +38,13 @@ namespace Fubu.Running
         public string ApplicationFlag { get; set; } // this is optional
 
         [Description("Overrides the directory that is the physical path of the running fubumvc application")]
-        public string DirectoryFlag { get; set; } // This is mandatory
+        public string DirectoryFlag
+        {
+            get { return _directoryFlag; }
+            set { _directoryFlag = value.ToFullPath(); }
+        }
+
+        // This is mandatory
 
         [Description("Start the default browser to the home page of this application")]
         public bool OpenFlag { get; set; }

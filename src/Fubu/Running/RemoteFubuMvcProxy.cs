@@ -30,12 +30,15 @@ namespace Fubu.Running
                 x.RequireAssemblyContainingType<IModelBinder>(); // FubuCore
                 x.RequireAssemblyContainingType<StringToken>(); // FubuLocalization
                 x.RequireAssemblyContainingType<FubuApplication>(); // FubuMVC.Core
+                x.RequireAssemblyContainingType<FubuCsProjFile.CodeFile>(); // FubuCsProjFile just to keep it from whining
 
                 x.RequireAssembly("Owin.Extensions");
                 x.RequireAssembly("Newtonsoft.Json");
                 x.RequireAssembly("FubuMVC.OwinHost");
                 x.RequireAssembly("Microsoft.Owin.Hosting");
                 x.RequireAssembly("Microsoft.Owin.Host.HttpListener");
+                x.RequireAssembly("Microsoft.Owin");
+                x.RequireAssembly("Owin");
 
                 x.ServiceDirectory = _request.DirectoryFlag;
 

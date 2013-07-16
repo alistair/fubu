@@ -1,4 +1,6 @@
-﻿namespace Fubu.Running
+﻿using FubuCore;
+
+namespace Fubu.Running
 {
     public class StartApplication
     {
@@ -10,7 +12,13 @@
 
         public override string ToString()
         {
-            return string.Format("ApplicationName: {0}, PortNumber: {1}, PhysicalPath: {2}", ApplicationName, PortNumber, PhysicalPath);
+            if (ApplicationName.IsNotEmpty())
+            {
+                return string.Format("ApplicationName: {0}, PortNumber: {1}, PhysicalPath: {2}", ApplicationName, PortNumber, PhysicalPath);
+                
+            }
+
+            return "Application at {0} with port number {1}".ToFormat(PhysicalPath, PortNumber);
         }
     }
 }

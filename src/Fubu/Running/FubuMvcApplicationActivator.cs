@@ -30,8 +30,8 @@ namespace Fubu.Running
             try
             {
                 var application = _applicationSource.BuildApplication();
-                _server = new EmbeddedFubuMvcServer(application.Bootstrap(),
-                                                    _physicalPath, _port);
+                var runtime = application.Bootstrap();
+                _server = new EmbeddedFubuMvcServer(runtime, _physicalPath, _port);
 
                 var list = new List<string>();
                 PackageRegistry.Packages.Each(pak => pak.ForFolder(BottleFiles.WebContentFolder, list.Add));

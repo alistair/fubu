@@ -4,6 +4,7 @@ using Bottles;
 using Bottles.Diagnostics;
 using Bottles.Services.Messaging;
 using FubuMVC.Core;
+using FubuCore;
 
 namespace Fubu.Running
 {

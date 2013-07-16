@@ -81,11 +81,22 @@ namespace Fubu.Generation
             if (Directory.Exists(directory))
             {
                 var files = new FileSystem().FindFiles(directory, FileSet.Everything());
-                if (files.Any())
+                if (files.Any(x => !IsBaselineFile(x)))
                 {
                     throw new InvalidOperationException("Directory {0} is not empty!  Use the --clean flag to override this validation check to overwrite the contents of the solution".ToFormat(directory));
                 }
             }
+        }
+
+        public static bool IsBaselineFile(string file)
+        {
+            if (file.StartsWith(".git")) return true;
+
+            if (Path.GetFileNameWithoutExtension(file).StartsWith("readme", StringComparison.OrdinalIgnoreCase)) return true;
+
+            if (file.Contains(".git")) return true;
+
+            return false;
         }
 
         public static TemplateRequest BuildTemplateRequest(NewCommandInput input)
