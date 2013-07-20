@@ -1,0 +1,4 @@
+RavenDB.Client/2.0.2230
+RavenDB.Database/2.0.2230
+RavenDB.Embedded/2.0.2230
+FubuMVC.RavenDb

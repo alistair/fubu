@@ -36,6 +36,7 @@ namespace Fubu.Generation
             {
                 prepareTargetDirectory(input, request);
 
+                // TODO -- duplication below
                 plan.Execute();
 
                 new RakeStep().Alter(plan);

@@ -4,14 +4,6 @@ using FubuCore;
 
 namespace Fubu.Generation
 {
-    /*
-     * 
-     * 1.) Brand new solution        fubu new [solution name] | --project fubumvc-app --list
-     * 2.) alter a solution (?)      
-     * 3.) new project               fubu new-project [project name] [template] --options [option1] [option2] --testing --list
-     * 4.) alter project             fubu alter-project [project name] [template1] [template2]  --list
-     * 5.) new testing project       fubu add-test-project [project name]
-     */
 
     public class NewCommandInput
     {
