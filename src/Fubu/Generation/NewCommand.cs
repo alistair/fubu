@@ -137,13 +137,21 @@ namespace Fubu.Generation
             project.AddAlteration("structuremap");
             project.AddAlteration("fubumvc-empty");
 
+            if (input.OptionsFlag != null)
+            {
+                input.OptionsFlag.Each(x => project.AddAlteration(x));
+            }
+
             if (input.ShortNameFlag.IsNotEmpty())
             {
                 project.Substitutions.Set(ProjectPlan.SHORT_NAME, input.ShortNameFlag);
             }
 
-            // TODO -- hard-coded for now, but needs to change later when spark & razor are available
-            project.AddAlteration("no-views");
+            // TODO -- Will need to check for razor too!
+            if (!project.Alterations.Contains("spark"))
+            {
+                project.AddAlteration("no-views");
+            }
 
             request.AddProjectRequest(project);
 

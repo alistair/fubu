@@ -69,6 +69,21 @@ namespace fubu.Testing.Generation
         }
 
         [Test]
+        public void add_spark_but_not_no_views_if_spark_option_is_requested()
+        {
+            var input = new NewCommandInput
+            {
+                SolutionName = "FubuMVC.Scenarios",
+                AppFlag = true,
+                OptionsFlag = new string[]{"spark"}
+            };
+
+            var request = NewCommand.BuildTemplateRequest(input);
+            request.Projects.Single().Alterations.ShouldNotContain("no-views");
+            request.Projects.Single().Alterations.ShouldContain("spark");
+        }
+
+        [Test]
         public void choose_the_float_ripple()
         {
             var input = new NewCommandInput

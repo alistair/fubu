@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using FubuCore;
 
@@ -37,6 +38,9 @@ namespace Fubu.Generation
 
         [Description("Choose a ripple configuration for only public Nuget feeds, including the Fubu TeamCity feed, or 'floating' on the Fubu edge")]
         public FeedChoice RippleFlag { get; set; }
+
+        [Description("Extra options for the new application")]
+        public IEnumerable<string> OptionsFlag { get; set; }
 
         public string SolutionDirectory()
         {
