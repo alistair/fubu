@@ -4,7 +4,9 @@ namespace %NAMESPACE%
 	{
 		public string Index()
 		{
-			return "Something grand";
+			return @"		
+%INSTRUCTIONS%
+			";
 		}
 	}
 }

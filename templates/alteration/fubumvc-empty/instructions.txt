@@ -1,1 +1,2 @@
-The FubuRegistry class is %FUBU_REGISTRY%.  Use this class to register custom policies or configure FubuMVC application settings
+* The FubuRegistry class is %FUBU_REGISTRY%.  Use this class to register custom policies or
+  configure FubuMVC application settings
