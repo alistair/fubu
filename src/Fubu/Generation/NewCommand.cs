@@ -81,7 +81,8 @@ namespace Fubu.Generation
             if (Directory.Exists(directory))
             {
                 var files = new FileSystem().FindFiles(directory, FileSet.Everything());
-                if (files.Any(x => !IsBaselineFile(x)))
+                var notBaseline = files.Where(x => !IsBaselineFile(x)).ToArray();
+                if (notBaseline.Any())
                 {
                     throw new InvalidOperationException("Directory {0} is not empty!  Use the --clean flag to override this validation check to overwrite the contents of the solution".ToFormat(directory));
                 }

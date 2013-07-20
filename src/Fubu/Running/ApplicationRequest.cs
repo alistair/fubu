@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.IO;
 using System.Security.Policy;
+using Bottles;
 using FubuCore;
 using FubuCore.CommandLine;
 using OpenQA.Selenium;
@@ -41,7 +42,11 @@ namespace Fubu.Running
         public string DirectoryFlag
         {
             get { return _directoryFlag; }
-            set { _directoryFlag = value.ToFullPath(); }
+            set
+            {
+                var directory = new AliasService().GetFolderForAlias(value);
+                _directoryFlag = directory.ToFullPath();
+            }
         }
 
         // This is mandatory

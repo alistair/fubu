@@ -26,7 +26,16 @@ namespace Fubu
         public static void Restart(string folder)
         {
             var configFile = Path.Combine(folder, "web.config");
-            File.SetLastWriteTimeUtc(configFile, DateTime.UtcNow);
+            if (File.Exists(configFile))
+            {
+                Console.WriteLine("Touching " + configFile);
+                File.SetLastWriteTimeUtc(configFile, DateTime.UtcNow);
+            }
+            else
+            {
+                Console.WriteLine("Could not find file " + configFile);
+            }
+            
         }
     }
 }

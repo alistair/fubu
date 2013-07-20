@@ -18,7 +18,7 @@ namespace Fubu.Running
                 
             }
 
-            return "Application at {0} with port number {1}".ToFormat(PhysicalPath, PortNumber);
+            return "{0} with port number {1}".ToFormat(PhysicalPath, PortNumber);
         }
     }
 }
