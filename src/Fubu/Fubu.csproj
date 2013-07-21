@@ -129,6 +129,9 @@
     <Compile Include="Generation\ProjectFinder.cs" />
     <Compile Include="Generation\RakeStep.cs" />
     <Compile Include="Generation\SolutionFinder.cs" />
+    <Compile Include="Generation\SparkViewBuilder.cs" />
+    <Compile Include="Generation\ViewCommand.cs" />
+    <Compile Include="Generation\ViewModelBuilder.cs" />
     <Compile Include="IncludeWebContentCommand.cs" />
     <Compile Include="InstallPackageCommand.cs" />
     <Compile Include="InstallPackageInput.cs" />

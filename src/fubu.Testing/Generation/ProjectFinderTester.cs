@@ -22,6 +22,7 @@ namespace fubu.Testing.Generation
             var location = ProjectFinder.DetermineLocation("shallow".AppendPath("Foo"));
             location.Project.AssemblyName.ShouldEqual("Foo");
             location.Namespace.ShouldEqual("Foo");
+            location.RelativePath.ShouldBeEmpty();
         }
 
         [Test]
@@ -37,6 +38,7 @@ namespace fubu.Testing.Generation
             var location = ProjectFinder.DetermineLocation("deep1".AppendPath("Foo", "A"));
             location.Project.AssemblyName.ShouldEqual("Foo");
             location.Namespace.ShouldEqual("Foo.A");
+            location.RelativePath.ShouldEqual("A");
         }
 
 
@@ -53,6 +55,7 @@ namespace fubu.Testing.Generation
             var location = ProjectFinder.DetermineLocation("deep2".AppendPath("Foo", "A", "B"));
             location.Project.AssemblyName.ShouldEqual("Foo");
             location.Namespace.ShouldEqual("Foo.A.B");
+            location.RelativePath.ShouldEqual("A\\B");
         }
     }
 }

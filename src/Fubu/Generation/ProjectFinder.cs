@@ -25,12 +25,13 @@ namespace Fubu.Generation
                  throw new Exception("Could not determine a csproj file");
              }
 
-             var relativePath = path.ToFullPath().PathRelativeTo(file.ProjectDirectory.ToFullPath()).Replace("\\", "/").Replace("/", ".");
-             var @namespace = relativePath.IsNotEmpty() ? file.AssemblyName + "." + relativePath : file.AssemblyName;
+             var relativePath = path.ToFullPath().PathRelativeTo(file.ProjectDirectory.ToFullPath()).Replace("/", "\\");
+             var @namespace = relativePath.IsNotEmpty() ? file.AssemblyName + "." + relativePath.Replace("\\", ".") : file.AssemblyName;
              return new Location
              {
                  Namespace = @namespace,
-                 Project = file
+                 Project = file,
+                 RelativePath = relativePath
              };
          }
 
@@ -55,5 +56,7 @@ namespace Fubu.Generation
     {
         public CsProjFile Project { get; set; }
         public string Namespace { get; set; }
+
+        public string RelativePath { get; set; }
     }
 }
