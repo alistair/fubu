@@ -8,8 +8,6 @@ namespace Fubu.Generation
 
     public class NewCommandInput
     {
-        [Description("Used in many templates as a prefix for generted classes")]
-        public string ShortNameFlag { get; set; }
 
         public NewCommandInput()
         {
@@ -39,8 +37,13 @@ namespace Fubu.Generation
         [Description("Choose a ripple configuration for only public Nuget feeds, including the Fubu TeamCity feed, or 'floating' on the Fubu edge")]
         public FeedChoice RippleFlag { get; set; }
 
+        [Description("Used in many templates as a prefix for generted classes")]
+        public string ShortNameFlag { get; set; }
+
+
         [Description("Extra options for the new application")]
         public IEnumerable<string> OptionsFlag { get; set; }
+
 
         public string SolutionDirectory()
         {

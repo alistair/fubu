@@ -142,6 +142,7 @@ namespace Fubu.Generation
                 input.OptionsFlag.Each(x => project.AddAlteration(x));
             }
 
+            // TODO -- duplication!
             if (input.ShortNameFlag.IsNotEmpty())
             {
                 project.Substitutions.Set(ProjectPlan.SHORT_NAME, input.ShortNameFlag);

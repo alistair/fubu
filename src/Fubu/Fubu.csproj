@@ -122,6 +122,7 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Generation\BottleCommand.cs" />
     <Compile Include="Generation\EnhanceCommand.cs" />
     <Compile Include="Generation\BundlerStep.cs" />
     <Compile Include="Generation\FileSystemExtensions.cs" />
