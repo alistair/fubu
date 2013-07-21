@@ -126,6 +126,7 @@
     <Compile Include="Generation\EnhanceCommand.cs" />
     <Compile Include="Generation\BundlerStep.cs" />
     <Compile Include="Generation\FileSystemExtensions.cs" />
+    <Compile Include="Generation\ProjectFinder.cs" />
     <Compile Include="Generation\RakeStep.cs" />
     <Compile Include="Generation\SolutionFinder.cs" />
     <Compile Include="IncludeWebContentCommand.cs" />
