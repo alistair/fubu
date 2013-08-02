@@ -12,6 +12,7 @@ namespace Fubu
         public string Path { get; set; }
     }
 
+    [CommandDescription("Choose or display the path to the editor that you wish fubu.exe to use when opening files")]
     public class EditorCommand : FubuCommand<EditorInput>
     {
         public override bool Execute(EditorInput input)
