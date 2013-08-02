@@ -45,6 +45,11 @@ namespace %NAMESPACE%
 
             location.Project.Save();
 
+            if (input.OpenFlag)
+            {
+                EditorLauncher.LaunchFile(path);
+            }
+
             return file;
         }
 

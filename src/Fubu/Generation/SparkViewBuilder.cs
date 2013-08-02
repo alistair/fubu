@@ -10,12 +10,14 @@ namespace Fubu.Generation
     {
         public static readonly string _template = "<viewdata model=\"%MODEL%\" />";
 
-        public static void Write(string folder, string inputModel)
+        public static string Write(string folder, string inputModel)
         {
             var path = folder.AppendPath(inputModel.Split('.').Last() + ".spark");
             var contents = _template.Replace("%MODEL%", inputModel);
 
             new FileSystem().WriteStringToFile(path, contents);
+
+            return path;
         }
     }
 }

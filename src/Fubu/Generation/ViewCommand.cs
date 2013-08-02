@@ -13,6 +13,9 @@ namespace Fubu.Generation
 
         [Description("If specified, will make this actionless view applied to the given url pattern")]
         public string UrlFlag { get; set; }
+
+        [Description("open the view model and view after generation")]
+        public bool OpenFlag { get; set; }
     }
 
     [CommandDescription("Creates and attaches a view model/view pair to the project in the current folder")]
@@ -25,7 +28,12 @@ namespace Fubu.Generation
             ViewModelBuilder.BuildCodeFile(input, location);
 
             var modelName = location.Namespace + "." + input.Name;
-            SparkViewBuilder.Write(Environment.CurrentDirectory, modelName);
+            var path = SparkViewBuilder.Write(Environment.CurrentDirectory, modelName);
+
+            if (input.OpenFlag)
+            {
+                EditorLauncher.LaunchFile(path);
+            }
 
             return true;
         }
