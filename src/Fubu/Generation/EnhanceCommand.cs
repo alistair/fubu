@@ -24,15 +24,23 @@ namespace Fubu.Generation
     [CommandDescription("Enhances an existing project by applying infrastructure templates to an existing project")]
     public class EnhanceCommand : FubuCommand<EnhanceInput>
     {
-
-
         public override bool Execute(EnhanceInput input)
         {
             var solutionFile = SolutionFinder.FindSolutionFile();
+            if (solutionFile == null) return false;
 
+            var request = BuildTemplateRequest(input, solutionFile);
 
-            // TODO -- check validity of the solutionFile
+            var plan = NewCommand.BuildTemplatePlan(request);
+            plan.Solution = Solution.LoadFrom(solutionFile);
 
+            NewCommand.ExecutePlan(plan);
+
+            return true;
+        }
+
+        public static TemplateRequest BuildTemplateRequest(EnhanceInput input, string solutionFile)
+        {
             var request = new TemplateRequest
             {
                 RootDirectory = Environment.CurrentDirectory.ToFullPath(),
@@ -42,23 +50,7 @@ namespace Fubu.Generation
             var projectRequest = new ProjectRequest(input.Project, "baseline");
             request.AddProjectRequest(projectRequest);
             input.Options.Each(projectRequest.AddAlteration);
-
-            var plan = NewCommand.BuildTemplatePlan(request);
-            plan.Solution = Solution.LoadFrom(solutionFile);
-
-            // TODO -- duplication
-            plan.Execute();
-
-            new RakeStep().Alter(plan);
-
-            plan.WriteInstructions();
-
-//            if (solutionFile.IsEmpty())
-//            {
-//                ConsoleWriter.Write(ConsoleColor.Yellow, "Could not find a single solution.  Try specifying the ");
-//            }
-
-            return true;
+            return request;
         }
     }
 }

@@ -106,6 +106,8 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Generation\BottleCommandTester.cs" />
+    <Compile Include="Generation\GenerationContext.cs" />
     <Compile Include="Generation\NewCommandInputTester.cs" />
     <Compile Include="Generation\NewCommandTester.cs" />
     <Compile Include="Generation\ProjectFinderTester.cs" />

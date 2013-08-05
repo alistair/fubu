@@ -9,6 +9,12 @@ namespace Fubu.Generation
     {
         public void Alter(TemplatePlan plan)
         {
+            if (!RemoteOperations.Enabled)
+            {
+                plan.Logger.WriteSuccess("Remote operations are disabled.");
+                return;
+            }
+
             var bundler = new ProcessStartInfo
             {
                 UseShellExecute = true,

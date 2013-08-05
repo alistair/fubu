@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using FubuCore;
+using FubuCore.CommandLine;
 using FubuCsProjFile.Templating;
 using System.Linq;
 
@@ -15,6 +16,17 @@ namespace Fubu.Generation
              if (files.Count() == 1)
              {
                  return files.Single().ToFullPath().PathRelativeTo(currentDirectory);
+             }
+             
+             if (files.Any())
+             {
+                 ConsoleWriter.Write(ConsoleColor.Yellow, "Found more than one *.sln file:");
+                 files.Each(x => ConsoleWriter.Write(ConsoleColor.Yellow, x));
+                 ConsoleWriter.Write(ConsoleColor.Yellow, "You need to specify the solution with the --solution flag");
+             }
+             else
+             {
+                 ConsoleWriter.Write(ConsoleColor.Yellow, "Could not find any *.sln files");
              }
 
              return null;

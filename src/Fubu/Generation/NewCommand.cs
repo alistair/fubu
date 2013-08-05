@@ -36,18 +36,21 @@ namespace Fubu.Generation
             {
                 prepareTargetDirectory(input, request);
 
-                // TODO -- duplication below
-                plan.Execute();
-
-                new RakeStep().Alter(plan);
-
-                plan.WriteInstructions();
+                ExecutePlan(plan);
             }
-            
-
 
 
             return true;
+        }
+
+        public static void ExecutePlan(TemplatePlan plan, Action beforeRake = null)
+        {
+            plan.Execute();
+
+            if (beforeRake != null) beforeRake();
+            new RakeStep().Alter(plan);
+
+            plan.WriteInstructions();
         }
 
         public static TemplatePlan BuildTemplatePlan(TemplateRequest request)

@@ -26,7 +26,6 @@ namespace Fubu.Generation
 
         [Description("Used in many templates as a prefix for generted classes")]
         public string ShortNameFlag { get; set; }
-
     }
 
     [Description("Creates a new project as a FubuMVC Bottle")]
@@ -34,11 +33,26 @@ namespace Fubu.Generation
     {
         public override bool Execute(BottleInput input)
         {
-            var solutionFile = SolutionFinder.FindSolutionFile();
+            string solutionFile = SolutionFinder.FindSolutionFile();
+            if (solutionFile == null)
+            {
+                return false;
+            }
 
+            var request = BuildTemplateRequest(input, solutionFile);
 
-            // TODO -- check validity of the solutionFile
+            var plan = NewCommand.BuildTemplatePlan(request);
 
+            plan.Solution = Solution.LoadFrom(solutionFile);
+
+            // TODO -- try to add CopyReferences from the parent
+            NewCommand.ExecutePlan(plan, () => initializeTheBottle(input, plan));
+
+            return true;
+        }
+
+        public static TemplateRequest BuildTemplateRequest(BottleInput input, string solutionFile)
+        {
             var request = new TemplateRequest
             {
                 RootDirectory = Environment.CurrentDirectory.ToFullPath(),
@@ -53,30 +67,15 @@ namespace Fubu.Generation
                 projectRequest.Substitutions.Set(ProjectPlan.SHORT_NAME, input.ShortNameFlag);
             }
 
-
             request.AddProjectRequest(projectRequest);
             projectRequest.AddAlteration("fubu-bottle");
+
             if (input.OptionsFlag != null)
             {
                 input.OptionsFlag.Each(projectRequest.AddAlteration);
             }
 
-            var plan = NewCommand.BuildTemplatePlan(request);
-
-            plan.Solution = Solution.LoadFrom(solutionFile);
-
-            // TODO -- duplication
-            plan.Execute();
-
-
-            initializeTheBottle(input, plan);
-
-
-            new RakeStep().Alter(plan);
-
-            plan.WriteInstructions();
-
-            return true;
+            return request;
         }
 
         private static void initializeTheBottle(BottleInput input, TemplatePlan plan)
@@ -90,4 +89,6 @@ namespace Fubu.Generation
                 );
         }
     }
+
+
 }
