@@ -22,6 +22,8 @@ namespace Fubu.Running
             _port = PortFinder.FindPort(port);
             _physicalPath = physicalPath;
 
+            var assembly = typeof (EmbeddedFubuMvcServer).Assembly;
+
             StartUp();
         }
 

@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "fubu.Testing", "fubu.Testin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "fubu.Docs", "fubu.Docs\fubu.Docs.csproj", "{31845855-A4E7-411C-BA50-007BCD1816E0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FubuApp", "FubuApp\FubuApp.csproj", "{8A284565-46C1-47ED-A44D-C4BF8384B9E2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,6 +26,10 @@ Global
 		{31845855-A4E7-411C-BA50-007BCD1816E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{31845855-A4E7-411C-BA50-007BCD1816E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{31845855-A4E7-411C-BA50-007BCD1816E0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A284565-46C1-47ED-A44D-C4BF8384B9E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A284565-46C1-47ED-A44D-C4BF8384B9E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A284565-46C1-47ED-A44D-C4BF8384B9E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A284565-46C1-47ED-A44D-C4BF8384B9E2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

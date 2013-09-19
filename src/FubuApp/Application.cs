@@ -4,7 +4,6 @@ using FubuMVC.Core;
 using FubuMVC.Core.Packaging;
 using FubuMVC.StructureMap;
 using StructureMap;
-using FubuCore.Dates;
 
 namespace FubuApp
 {
