@@ -208,6 +208,30 @@ namespace fubu.Testing.Generation
 
             testingRequest.Alterations.Single().ShouldEqual("unit-testing");
         }
+
+        [Test]
+        public void license_file_is_ignored()
+        {
+            NewCommand.IsBaselineFile("license.txt")
+                .ShouldBeTrue();
+        }
+
+        [Test]
+        public void dot_git_files_are_ignored()
+        {
+            NewCommand.IsBaselineFile(".git/something")
+                .ShouldBeTrue();
+        }
+
+        [Test]
+        public void readme_files_are_ignored()
+        {
+            NewCommand.IsBaselineFile("readme").ShouldBeTrue();
+            NewCommand.IsBaselineFile("readme.txt").ShouldBeTrue();
+            NewCommand.IsBaselineFile("README.txt").ShouldBeTrue();
+            NewCommand.IsBaselineFile("README.markdown").ShouldBeTrue();
+            NewCommand.IsBaselineFile("README.md").ShouldBeTrue();
+        }
     }
 
     [TestFixture]
@@ -258,5 +282,7 @@ namespace fubu.Testing.Generation
         {
             project.Alterations.ShouldContain("fubumvc-empty");
         }
+
+
     }
 }

@@ -101,6 +101,8 @@ namespace Fubu.Generation
 
             if (file.Contains(".git")) return true;
 
+            if (Path.GetFileName(file).EqualsIgnoreCase("license.txt")) return true;
+
             return false;
         }
 
