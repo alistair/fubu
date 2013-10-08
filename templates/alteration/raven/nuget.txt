@@ -1,5 +1,2 @@
-RavenDB.Client/2.0.2230
-RavenDB.Database/2.0.2230
-RavenDB.Embedded/2.0.2230
-FubuMVC.RavenDb
-Microsoft.CompilerServices.AsyncTargetingPack/1.0.1
+StructureMap/2.6.3
+FubuMVC.RavenDb/0.9.5.85

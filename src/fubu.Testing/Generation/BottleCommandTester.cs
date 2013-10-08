@@ -115,7 +115,8 @@ namespace fubu.Testing.Generation
 
             new BottleCommand().Execute(new BottleInput
             {
-                Name = "MyBottle"
+                Name = "MyBottle",
+                TestsFlag = true
             });
         }
 
@@ -123,6 +124,12 @@ namespace fubu.Testing.Generation
         public void should_have_created_a_new_project()
         {
             csprojFor("MyBottle").ShouldNotBeNull();
+        }
+
+        [Test]
+        public void should_have_created_a_matching_test_project()
+        {
+            csprojFor("MyBottle.Testing").ShouldNotBeNull();
         }
 
         [Test]

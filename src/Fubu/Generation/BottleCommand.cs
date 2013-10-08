@@ -26,9 +26,13 @@ namespace Fubu.Generation
 
         [Description("Used in many templates as a prefix for generted classes")]
         public string ShortNameFlag { get; set; }
-    }
 
-    [Description("Creates a new project as a FubuMVC Bottle")]
+        [Description("Add a testing library for the project using the default FubuTestingSupport w/ NUnit")]
+        public bool TestsFlag { get; set; }
+
+    }
+    
+    [CommandDescription("Creates a new project as a FubuMVC Bottle", Name = "new-bottle")]
     public class BottleCommand : FubuCommand<BottleInput>
     {
         public override bool Execute(BottleInput input)
@@ -69,6 +73,17 @@ namespace Fubu.Generation
 
             request.AddProjectRequest(projectRequest);
             projectRequest.AddAlteration("fubu-bottle");
+
+            // TODO -- some duplication here.
+            if (input.TestsFlag)
+            {
+                var testing = new TestProjectRequest(projectRequest.Name + ".Testing", "baseline",
+                                                     projectRequest.Name);
+
+                testing.AddAlteration("unit-testing");
+
+                request.AddTestingRequest(testing);
+            }
 
             if (input.OptionsFlag != null)
             {

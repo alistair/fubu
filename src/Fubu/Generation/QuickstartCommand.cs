@@ -12,9 +12,10 @@ namespace Fubu.Generation
                 PreviewFlag = PreviewFlag,
                 RippleFlag = RippleFlag,
                 ShortNameFlag = ShortNameFlag,
-                OptionsFlag = new string[]{"spark", "raven"}, // needs to get smarter here
-                AppFlag = true,
 
+                OptionsFlag = new string[]{"spark"}, // needs to get smarter here
+                AppFlag = true,
+                TestsFlag = true
             };
         }
     }
