@@ -50,6 +50,9 @@ task :create_gem => [:compile] do
 	cleanDirectory 'bin';	
 	cleanDirectory 'pkg'
 	
+	Dir.mkdir 'bin' unless Dir.exists?('bin')
+	Dir.mkdir 'pkg' unless Dir.exists?('pkg')
+	
 	copyOutputFiles "src/fubu/bin/#{@solution.compilemode}", '*.dll', 'bin'
 	copyOutputFiles "src/fubu/bin/#{@solution.compilemode}", 'fubu.exe', 'bin'
 	copyOutputFiles "src/fubu/bin/#{@solution.compilemode}", 'chromedriver.exe', 'bin'
