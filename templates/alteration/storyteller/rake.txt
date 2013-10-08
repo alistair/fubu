@@ -1,0 +1,6 @@
+# You may have to change the value of :compilemode below to reflect
+# your rake file
+FubuRake::Storyteller.new({
+  :path => '%PROJECT_FOLDER%',
+  :compilemode => @solution.compilemode
+})

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using FubuCore;
 using FubuCore.CommandLine;
 using FubuCsProjFile.Templating;
@@ -15,7 +16,7 @@ namespace Fubu.Generation
              var files = new FileSystem().FindFiles(currentDirectory, FileSet.Deep("*.sln"));
              if (files.Count() == 1)
              {
-                 return files.Single().ToFullPath().PathRelativeTo(currentDirectory);
+                 return Path.GetFileName(files.Single());
              }
              
              if (files.Any())

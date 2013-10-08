@@ -37,6 +37,7 @@ namespace Fubu.Generation
     {
         public override bool Execute(BottleInput input)
         {
+            // TODO -- duplication here
             string solutionFile = SolutionFinder.FindSolutionFile();
             if (solutionFile == null)
             {
@@ -46,8 +47,6 @@ namespace Fubu.Generation
             var request = BuildTemplateRequest(input, solutionFile);
 
             var plan = NewCommand.BuildTemplatePlan(request);
-
-            plan.Solution = Solution.LoadFrom(solutionFile);
 
             // TODO -- try to add CopyReferences from the parent
             NewCommand.ExecutePlan(plan, () => initializeTheBottle(input, plan));
@@ -60,7 +59,7 @@ namespace Fubu.Generation
             var request = new TemplateRequest
             {
                 RootDirectory = Environment.CurrentDirectory.ToFullPath(),
-                SolutionName = Path.GetFileNameWithoutExtension(solutionFile)
+                SolutionName = solutionFile
             };
 
             var projectRequest = new ProjectRequest(input.Name, "baseline");
