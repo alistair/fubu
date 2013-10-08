@@ -127,6 +127,7 @@
     <Compile Include="Generation\EnhanceCommand.cs" />
     <Compile Include="Generation\BundlerStep.cs" />
     <Compile Include="Generation\FileSystemExtensions.cs" />
+    <Compile Include="Generation\NewSerenityCommand.cs" />
     <Compile Include="Generation\NewSolutionInput.cs" />
     <Compile Include="Generation\NewStorytellerCommand.cs" />
     <Compile Include="Generation\ProjectFinder.cs" />

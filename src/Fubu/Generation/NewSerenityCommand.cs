@@ -1,21 +1,18 @@
 ﻿using System;
-using System.ComponentModel;
 using FubuCore.CommandLine;
-using FubuCore.Descriptions;
 using FubuCsProjFile.Templating;
 
 namespace Fubu.Generation
 {
-    public class NewStorytellerInput
+    public class NewSerenityInput : NewStorytellerInput
     {
-        [Description("Name of a new or existing project to make into a Storyteller testing project")]
-        public string Name { get; set; }
+        
     }
 
-    [CommandDescription("Sets up a new or existing project to be a Storyteller2 testing project", Name = "new-storyteller")]
-    public class NewStorytellerCommand : FubuCommand<NewStorytellerInput>
+    [CommandDescription("Applies Serenity testing to a new or existing project", Name = "new-serenity")]
+    public class NewSerenityCommand : FubuCommand<NewSerenityInput>
     {
-        public override bool Execute(NewStorytellerInput input)
+        public override bool Execute(NewSerenityInput input)
         {
             // TODO -- duplication here
             string solutionFile = SolutionFinder.FindSolutionFile();
@@ -24,8 +21,11 @@ namespace Fubu.Generation
                 return false;
             }
 
+            // TODO -- try to attach the IApplicationSource from the parent
+            // project
             var projectRequest = new ProjectRequest(input.Name, "baseline");
             projectRequest.AddAlteration("storyteller");
+            projectRequest.AddAlteration("serenity");
 
             var request = new TemplateRequest
             {
