@@ -114,7 +114,6 @@
     <Compile Include="Generation\SolutionFinderTester.cs" />
     <Compile Include="Generation\ViewModelBuilderTester.cs" />
     <Compile Include="ModeCommandTester.cs" />
-    <Compile Include="PackagesCommandTester.cs" />
     <Compile Include="ProcessFactoryTester.cs" />
     <Compile Include="ProcessWrapperTester.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -138,15 +138,11 @@
     <Compile Include="Generation\SparkViewBuilder.cs" />
     <Compile Include="Generation\ViewCommand.cs" />
     <Compile Include="Generation\ViewModelBuilder.cs" />
-    <Compile Include="InstallPackageCommand.cs" />
-    <Compile Include="InstallPackageInput.cs" />
     <Compile Include="IProcess.cs" />
     <Compile Include="IProcessFactory.cs" />
     <Compile Include="ModeCommand.cs" />
     <Compile Include="Generation\NewCommand.cs" />
     <Compile Include="Generation\NewCommandInput.cs" />
-    <Compile Include="PackagesCommand.cs" />
-    <Compile Include="PackagesInput.cs" />
     <Compile Include="ProcessFactory.cs" />
     <Compile Include="ProcessWrapper.cs" />
     <Compile Include="Program.cs" />
@@ -176,7 +172,6 @@
     <Compile Include="Running\RemoteFubuMvcProxy.cs" />
     <Compile Include="Running\RunCommand.cs" />
     <Compile Include="Running\StartApplication.cs" />
-    <Compile Include="VdirCommand.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
