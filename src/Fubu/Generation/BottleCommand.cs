@@ -7,6 +7,9 @@ using FubuCore;
 using FubuCore.CommandLine;
 using FubuCsProjFile;
 using FubuCsProjFile.Templating;
+using FubuCsProjFile.Templating.Graph;
+using FubuCsProjFile.Templating.Planning;
+using FubuCsProjFile.Templating.Runtime;
 
 namespace Fubu.Generation
 {
@@ -71,22 +74,22 @@ namespace Fubu.Generation
             }
 
             request.AddProjectRequest(projectRequest);
-            projectRequest.AddAlteration("fubu-bottle");
+            projectRequest.Alterations.Add("fubu-bottle");
 
             // TODO -- some duplication here.
             if (input.TestsFlag)
             {
-                var testing = new TestProjectRequest(projectRequest.Name + ".Testing", "baseline",
+                var testing = new ProjectRequest(projectRequest.Name + ".Testing", "baseline",
                                                      projectRequest.Name);
 
-                testing.AddAlteration("unit-testing");
+                testing.Alterations.Add("unit-testing");
 
                 request.AddTestingRequest(testing);
             }
 
             if (input.OptionsFlag != null)
             {
-                input.OptionsFlag.Each(projectRequest.AddAlteration);
+                input.OptionsFlag.Each(o => projectRequest.Alterations.Add(o));
             }
 
             return request;

@@ -5,8 +5,11 @@ using System.IO;
 using System.Reflection;
 using FubuCore.CommandLine;
 using FubuCsProjFile.Templating;
+using FubuCsProjFile.Templating.Graph;
 using FubuCore;
 using System.Linq;
+using FubuCsProjFile.Templating.Planning;
+using FubuCsProjFile.Templating.Runtime;
 
 namespace Fubu.Generation
 {
@@ -121,10 +124,10 @@ namespace Fubu.Generation
                 var projectRequest = addApplicationProject(input, request);
                 if (input.TestsFlag)
                 {
-                    var testing = new TestProjectRequest(projectRequest.Name + ".Testing", "baseline",
+                    var testing = new ProjectRequest(projectRequest.Name + ".Testing", "baseline",
                                                          projectRequest.Name);
 
-                    testing.AddAlteration("unit-testing");
+                    testing.Alterations.Add("unit-testing");
 
                     request.AddTestingRequest(testing);
                 }
@@ -139,12 +142,12 @@ namespace Fubu.Generation
         private static ProjectRequest addApplicationProject(NewCommandInput input, TemplateRequest request)
         {
             var project = new ProjectRequest(input.SolutionName, "baseline");
-            project.AddAlteration("structuremap");
-            project.AddAlteration("fubumvc-empty");
+            project.Alterations.Add("structuremap");
+            project.Alterations.Add("fubumvc-empty");
 
             if (input.OptionsFlag != null)
             {
-                input.OptionsFlag.Each(x => project.AddAlteration(x));
+                input.OptionsFlag.Each(x => project.Alterations.Add(x));
             }
 
             // TODO -- duplication!
@@ -156,7 +159,7 @@ namespace Fubu.Generation
             // TODO -- Will need to check for razor too!
             if (!project.Alterations.Contains("spark"))
             {
-                project.AddAlteration("no-views");
+                project.Alterations.Add("no-views");
             }
 
             request.AddProjectRequest(project);

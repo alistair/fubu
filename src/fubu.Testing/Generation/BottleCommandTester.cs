@@ -4,6 +4,8 @@ using Fubu.Generation;
 using FubuCore;
 using FubuCsProjFile;
 using FubuCsProjFile.Templating;
+using FubuCsProjFile.Templating.Graph;
+using FubuCsProjFile.Templating.Runtime;
 using NUnit.Framework;
 using FubuTestingSupport;
 using System.Linq;

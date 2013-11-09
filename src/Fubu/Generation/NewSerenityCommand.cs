@@ -1,6 +1,7 @@
 ﻿using System;
 using FubuCore.CommandLine;
 using FubuCsProjFile.Templating;
+using FubuCsProjFile.Templating.Graph;
 
 namespace Fubu.Generation
 {
@@ -24,8 +25,8 @@ namespace Fubu.Generation
             // TODO -- try to attach the IApplicationSource from the parent
             // project
             var projectRequest = new ProjectRequest(input.Name, "baseline");
-            projectRequest.AddAlteration("storyteller");
-            projectRequest.AddAlteration("serenity");
+            projectRequest.Alterations.Add("storyteller");
+            projectRequest.Alterations.Add("serenity");
 
             var request = new TemplateRequest
             {

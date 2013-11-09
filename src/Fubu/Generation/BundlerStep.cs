@@ -2,6 +2,8 @@
 using System.Diagnostics;
 using FubuCore.CommandLine;
 using FubuCsProjFile.Templating;
+using FubuCsProjFile.Templating.Planning;
+using FubuCsProjFile.Templating.Runtime;
 
 namespace Fubu.Generation
 {

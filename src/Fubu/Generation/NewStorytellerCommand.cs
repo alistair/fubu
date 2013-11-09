@@ -3,6 +3,7 @@ using System.ComponentModel;
 using FubuCore.CommandLine;
 using FubuCore.Descriptions;
 using FubuCsProjFile.Templating;
+using FubuCsProjFile.Templating.Graph;
 
 namespace Fubu.Generation
 {
@@ -25,7 +26,7 @@ namespace Fubu.Generation
             }
 
             var projectRequest = new ProjectRequest(input.Name, "baseline");
-            projectRequest.AddAlteration("storyteller");
+            projectRequest.Alterations.Add("storyteller");
 
             var request = new TemplateRequest
             {

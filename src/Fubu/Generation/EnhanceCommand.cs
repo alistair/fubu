@@ -6,6 +6,7 @@ using FubuCore.CommandLine;
 using FubuCore;
 using FubuCsProjFile;
 using FubuCsProjFile.Templating;
+using FubuCsProjFile.Templating.Graph;
 
 namespace Fubu.Generation
 {
@@ -49,7 +50,7 @@ namespace Fubu.Generation
 
             var projectRequest = new ProjectRequest(input.Project, "baseline");
             request.AddProjectRequest(projectRequest);
-            input.Options.Each(projectRequest.AddAlteration);
+            input.Options.Each(o => projectRequest.Alterations.Add(o));
             return request;
         }
     }
