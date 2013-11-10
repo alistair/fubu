@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Fubu.Generation;
+using FubuCsProjFile.Templating;
 using FubuCsProjFile.Templating.Graph;
 using FubuTestingSupport;
 using NUnit.Framework;
@@ -23,6 +24,16 @@ namespace fubu.Testing.Generation
             Templating.BuildPlan(request)
                       .Steps.OfType<BundlerStep>()
                       .Count().ShouldEqual(1);
+        }
+
+        [Test]
+        public void can_load_the_library_with_graph()
+        {
+            Templating.Library.ShouldNotBeNull();
+            Templating.Library.Graph.ShouldNotBeNull();
+            Templating.Library.Find(TemplateType.Solution, "baseline").ShouldNotBeNull();
+            Templating.Library.Graph.FindCategory("new").FindTemplate("web-app")
+                .ShouldNotBeNull();
         }
     }
 }

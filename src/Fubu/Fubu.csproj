@@ -130,6 +130,7 @@
     <Compile Include="Generation\RemoteOperations.cs" />
     <Compile Include="Generation\SolutionFinder.cs" />
     <Compile Include="Generation\SparkViewBuilder.cs" />
+    <Compile Include="Generation\Templating.cs" />
     <Compile Include="Generation\ViewCommand.cs" />
     <Compile Include="Generation\ViewModelBuilder.cs" />
     <Compile Include="IProcess.cs" />
