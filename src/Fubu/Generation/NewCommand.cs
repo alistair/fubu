@@ -38,22 +38,15 @@ namespace Fubu.Generation
             {
                 prepareTargetDirectory(input, request);
 
-                ExecutePlan(plan);
+                Templating.ExecutePlan(plan);
+                // TODO -- open the solution if you can
             }
 
 
             return true;
         }
 
-        public static void ExecutePlan(TemplatePlan plan, Action beforeRake = null)
-        {
-            plan.Execute();
 
-            if (beforeRake != null) beforeRake();
-            new RakeStep().Alter(plan);
-
-            plan.WriteInstructions();
-        }
 
         private static void prepareTargetDirectory(NewCommandInput input, TemplateRequest request)
         {
@@ -102,6 +95,8 @@ namespace Fubu.Generation
                 SolutionName = input.SolutionName
             };
 
+            request.AddTemplate("baseline");
+
             request.AddTemplate(_rippleTemplates[input.RippleFlag]);
 
             if (input.AppFlag)
@@ -109,17 +104,9 @@ namespace Fubu.Generation
                 var projectRequest = addApplicationProject(input, request);
                 if (input.TestsFlag)
                 {
-                    var testing = new ProjectRequest(projectRequest.Name + ".Testing", "baseline",
-                                                         projectRequest.Name);
-
-                    testing.Alterations.Add("unit-testing");
-
-                    request.AddTestingRequest(testing);
+                    request.AddMatchingTestingProject(projectRequest);
                 }
-
             }
-
-            request.AddTemplate("baseline");
 
             return request;
         }
@@ -151,9 +138,5 @@ namespace Fubu.Generation
 
             return project;
         }
-
-
-
-
     }
 }

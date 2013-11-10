@@ -64,5 +64,14 @@ namespace Fubu.Generation
 
             return plan;
         }
+
+        public static void ExecutePlan(TemplatePlan plan)
+        {
+            plan.Execute();
+
+            new RakeStep().Alter(plan);
+
+            plan.WriteInstructions();
+        }
     }
 }

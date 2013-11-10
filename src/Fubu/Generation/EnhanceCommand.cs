@@ -35,7 +35,7 @@ namespace Fubu.Generation
             var plan = Templating.BuildPlan(request);
             plan.Solution = Solution.LoadFrom(solutionFile);
 
-            NewCommand.ExecutePlan(plan);
+            Templating.ExecutePlan(plan);
 
             return true;
         }

@@ -123,6 +123,7 @@
     <Compile Include="Generation\EnhanceCommand.cs" />
     <Compile Include="Generation\BundlerStep.cs" />
     <Compile Include="Generation\FileSystemExtensions.cs" />
+    <Compile Include="Generation\GenerationExtensions.cs" />
     <Compile Include="Generation\NewSolutionInput.cs" />
     <Compile Include="Generation\ProjectFinder.cs" />
     <Compile Include="Generation\QuickstartCommand.cs" />
