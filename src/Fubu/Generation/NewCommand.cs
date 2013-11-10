@@ -1,12 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
-using FubuCore.CommandLine;
-using FubuCsProjFile.Templating;
-using FubuCsProjFile.Templating.Graph;
-using FubuCore;
 using System.Linq;
+using FubuCore;
+using FubuCore.CommandLine;
+using FubuCsProjFile.Templating.Graph;
 using FubuCsProjFile.Templating.Planning;
 using FubuCsProjFile.Templating.Runtime;
 
@@ -15,7 +13,7 @@ namespace Fubu.Generation
     [CommandDescription("Lays out and creates a new code tree with the idiomatic fubu project layout", Name = "new")]
     public class NewCommand : FubuCommand<NewCommandInput>
     {
-        private static readonly IDictionary<FeedChoice, string> _rippleTemplates = new Dictionary<FeedChoice, string>{{FeedChoice.Edge, "edge-ripple"}, {FeedChoice.FloatingEdge, "floating-ripple"}, {FeedChoice.PublicOnly, "public-ripple"}};
+
 
         public NewCommand()
         {
@@ -24,8 +22,8 @@ namespace Fubu.Generation
 
         public override bool Execute(NewCommandInput input)
         {
-            var request = BuildTemplateRequest(input);
-            var plan = Templating.BuildPlan(request);
+            TemplateRequest request = BuildTemplateRequest(input);
+            TemplatePlan plan = Templating.BuildPlan(request);
 
             if (input.PreviewFlag)
             {
@@ -47,7 +45,6 @@ namespace Fubu.Generation
         }
 
 
-
         private static void prepareTargetDirectory(NewCommandInput input, TemplateRequest request)
         {
             if (input.CleanFlag)
@@ -60,16 +57,18 @@ namespace Fubu.Generation
             }
         }
 
- 
+
         public static void AssertEmpty(string directory)
         {
             if (Directory.Exists(directory))
             {
-                var files = new FileSystem().FindFiles(directory, FileSet.Everything());
-                var notBaseline = files.Where(x => !IsBaselineFile(x)).ToArray();
+                IEnumerable<string> files = new FileSystem().FindFiles(directory, FileSet.Everything());
+                string[] notBaseline = files.Where(x => !IsBaselineFile(x)).ToArray();
                 if (notBaseline.Any())
                 {
-                    throw new InvalidOperationException("Directory {0} is not empty!  Use the --clean flag to override this validation check to overwrite the contents of the solution".ToFormat(directory));
+                    throw new InvalidOperationException(
+                        "Directory {0} is not empty!  Use the --clean flag to override this validation check to overwrite the contents of the solution"
+                            .ToFormat(directory));
                 }
             }
         }
@@ -78,7 +77,8 @@ namespace Fubu.Generation
         {
             if (file.StartsWith(".git")) return true;
 
-            if (Path.GetFileNameWithoutExtension(file).StartsWith("readme", StringComparison.OrdinalIgnoreCase)) return true;
+            if (Path.GetFileNameWithoutExtension(file).StartsWith("readme", StringComparison.OrdinalIgnoreCase))
+                return true;
 
             if (file.Contains(".git")) return true;
 
@@ -89,19 +89,10 @@ namespace Fubu.Generation
 
         public static TemplateRequest BuildTemplateRequest(NewCommandInput input)
         {
-            var request = new TemplateRequest
-            {
-                RootDirectory = input.SolutionDirectory(),
-                SolutionName = input.SolutionName
-            };
-
-            request.AddTemplate("baseline");
-
-            request.AddTemplate(_rippleTemplates[input.RippleFlag]);
-
+            var request = input.CreateRequestForSolution();
             if (input.AppFlag)
             {
-                var projectRequest = addApplicationProject(input, request);
+                ProjectRequest projectRequest = addApplicationProject(input, request);
                 if (input.TestsFlag)
                 {
                     request.AddMatchingTestingProject(projectRequest);

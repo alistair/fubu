@@ -6,12 +6,6 @@ namespace Fubu.Generation
     public class NewCommandInput : NewSolutionInput
     {
 
-        public NewCommandInput()
-        {
-            RippleFlag = FeedChoice.PublicOnly;
-        }
-
-
         // If this is blank, use this folder as the solution name too
 
         [Description("If chosen, fubu new will also create a single, empty FubuMVC application project with the same name")]
