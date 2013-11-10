@@ -25,6 +25,11 @@ end
 	sln.ci_steps = [:archive_gem]
 end
 
+FubuRake::Storyteller.new({
+  :path => 'src/fubu.Testing',
+  :compilemode => @solution.compilemode
+})
+
 
 desc "Replaces the existing installed gem with the new version for local testing"
 task :local_gem => [:create_gem] do

@@ -33,3 +33,5 @@ logs
 Gemfile.lock
 *.gem
 src/MyBottle
+storyteller.cmd
+run_st.cmd

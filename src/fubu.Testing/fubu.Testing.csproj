@@ -71,6 +71,9 @@
     <Reference Include="Rhino.Mocks">
       <HintPath>..\packages\RhinoMocks\lib\net\Rhino.Mocks.dll</HintPath>
     </Reference>
+    <Reference Include="StoryTeller">
+      <HintPath>..\packages\Storyteller2\lib\net40\StoryTeller.dll</HintPath>
+    </Reference>
     <Reference Include="StructureMap">
       <HintPath>..\packages\structuremap\lib\StructureMap.dll</HintPath>
     </Reference>
@@ -103,6 +106,7 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Fixtures\TemplatingFixture.cs" />
     <Compile Include="Generation\GenerationContext.cs" />
     <Compile Include="Generation\NewSolutionInputTester.cs" />
     <Compile Include="Generation\NewCommandTester.cs" />
@@ -130,6 +134,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Packages\" />
+    <Folder Include="Tests\Add\" />
+    <Folder Include="Tests\Enhance\" />
+    <Folder Include="Tests\New\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Fubu\Fubu.csproj">
