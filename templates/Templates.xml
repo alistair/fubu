@@ -1,0 +1,14 @@
+<templates>
+  <category type="new">
+    <project name="web-app" description="New FubuMVC application project" template="aspnet" alterations="fubumvc-empty" tags="new, add" options="">
+      <selection name="ioc" description="IoC Container" >
+        <option name="structuremap" description="Use StructureMap for IoC" alterations="structuremap"/>
+      </selection>
+      <selection name="views" description="View Engine">
+        <option name="no-views" description="No view engine" alterations="no-views"/>
+        <option name="spark" description="Spark view engine" alterations="spark"/>
+        <option name="razor" description="Razor view engine" alterations="razor"/>
+      </selection>
+    </project>
+  </category>
+</templates>

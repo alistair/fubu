@@ -8,6 +8,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "fubu.Docs", "fubu.Docs\fubu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FubuApp", "FubuApp\FubuApp.csproj", "{8A284565-46C1-47ED-A44D-C4BF8384B9E2}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E2400F02-BB24-4B93-9CE9-08207E64D9FC}"
+	ProjectSection(SolutionItems) = preProject
+		..\templates\Templates.xml = ..\templates\Templates.xml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
