@@ -160,21 +160,7 @@ namespace fubu.Testing.Generation
             });
         }
 
-        [Test]
-        public void should_add_a_bundler_step_if_there_are_any_gem_references()
-        {
-            var request = new TemplateRequest
-            {
-                SolutionName = "Foo",
-                RootDirectory = "Foo"
-            };
 
-            request.AddTemplate("baseline");
-
-            NewCommand.BuildTemplatePlan(request)
-                      .Steps.OfType<BundlerStep>()
-                      .Count().ShouldEqual(1);
-        }
 
         [Test]
         public void no_tests_if_no_tests_flag()

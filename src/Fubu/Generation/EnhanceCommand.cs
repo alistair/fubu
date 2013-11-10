@@ -32,7 +32,7 @@ namespace Fubu.Generation
 
             var request = BuildTemplateRequest(input, solutionFile);
 
-            var plan = NewCommand.BuildTemplatePlan(request);
+            var plan = Templating.BuildPlan(request);
             plan.Solution = Solution.LoadFrom(solutionFile);
 
             NewCommand.ExecutePlan(plan);

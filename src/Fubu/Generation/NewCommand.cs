@@ -26,7 +26,7 @@ namespace Fubu.Generation
         public override bool Execute(NewCommandInput input)
         {
             var request = BuildTemplateRequest(input);
-            var plan = BuildTemplatePlan(request);
+            var plan = Templating.BuildPlan(request);
 
             if (input.PreviewFlag)
             {
@@ -54,20 +54,6 @@ namespace Fubu.Generation
             new RakeStep().Alter(plan);
 
             plan.WriteInstructions();
-        }
-
-        public static TemplatePlan BuildTemplatePlan(TemplateRequest request)
-        {
-            var library = LoadTemplates();
-            var planner = new TemplatePlanBuilder(library);
-
-            var plan = planner.BuildPlan(request);
-            if (plan.Steps.OfType<GemReference>().Any())
-            {
-                plan.Add(new BundlerStep());
-            }
-
-            return plan;
         }
 
         private static void prepareTargetDirectory(NewCommandInput input, TemplateRequest request)
@@ -167,6 +153,28 @@ namespace Fubu.Generation
             return project;
         }
 
+
+
+
+    }
+
+    public static class Templating
+    {
+        private static readonly Lazy<TemplateLibrary> _templates;
+
+        static Templating()
+        {
+            _templates = new Lazy<TemplateLibrary>(LoadTemplates);
+        }
+
+        public static TemplateLibrary Library
+        {
+            get
+            {
+                return _templates.Value;
+            }
+        }
+
         public static TemplateLibrary LoadTemplates()
         {
             var path = AppDomain.CurrentDomain.BaseDirectory.AppendPath("templates");
@@ -193,6 +201,17 @@ namespace Fubu.Generation
             return new TemplateLibrary(path);
         }
 
+        public static TemplatePlan BuildPlan(TemplateRequest request)
+        {
+            var planner = new TemplatePlanBuilder(_templates.Value);
 
+            var plan = planner.BuildPlan(request);
+            if (plan.Steps.OfType<GemReference>().Any())
+            {
+                plan.Add(new BundlerStep());
+            }
+
+            return plan;
+        }
     }
 }
