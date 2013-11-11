@@ -1,22 +1,25 @@
-﻿using FubuCore.CommandLine;
+﻿using System;
+using FubuCore.CommandLine;
 
 namespace Fubu.Generation
 {
-    public class QuickstartInput : NewSolutionInput
+    public class QuickstartInput
     {
         public NewCommandInput ToInput()
         {
-            return new NewCommandInput
-            {
-                SolutionName = SolutionName,
-                PreviewFlag = PreviewFlag,
-                RippleFlag = RippleFlag,
-                ShortNameFlag = ShortNameFlag,
+            throw new NotImplementedException();
 
-                OptionsFlag = new string[]{"spark"}, // needs to get smarter here
-                AppFlag = true,
-                TestsFlag = true
-            };
+//            return new NewCommandInput
+//            {
+//                
+//                SolutionName = SolutionName,
+//                PreviewFlag = PreviewFlag,
+//                RippleFlag = RippleFlag,
+//                ShortNameFlag = ShortNameFlag,
+//
+//                OptionsFlag = new string[]{"spark"}, // needs to get smarter here
+//                TestsFlag = true
+//            };
         }
     }
 

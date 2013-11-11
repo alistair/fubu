@@ -25,7 +25,7 @@ namespace fubu.Testing.Generation
         [Test]
         public void public_only_is_the_default_ripple_setting()
         {
-            new NewSolutionInput().RippleFlag.ShouldEqual(FeedChoice.PublicOnly);
+            new NewCommandInput().RippleFlag.ShouldEqual(FeedChoice.PublicOnly);
         }
 
         [Test]

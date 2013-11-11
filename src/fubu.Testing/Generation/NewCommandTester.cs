@@ -35,7 +35,7 @@ namespace fubu.Testing.Generation
             var input = new NewCommandInput
             {
                 SolutionName = "NewThing",
-                AppFlag = true
+                Profile = "web-app"
             };
 
             var request = NewCommand.BuildTemplateRequest(input);
@@ -48,7 +48,7 @@ namespace fubu.Testing.Generation
             var input = new NewCommandInput
             {
                 SolutionName = "FubuMVC.Scenarios",
-                AppFlag = true,
+                Profile = "web-app",
                 ShortNameFlag = "Foo"
             };
 
@@ -63,7 +63,7 @@ namespace fubu.Testing.Generation
             var input = new NewCommandInput
             {
                 SolutionName = "FubuMVC.Scenarios",
-                AppFlag = true,
+                Profile = "web-app",
             };
 
             var request = NewCommand.BuildTemplateRequest(input);
@@ -76,7 +76,7 @@ namespace fubu.Testing.Generation
             var input = new NewCommandInput
             {
                 SolutionName = "FubuMVC.Scenarios",
-                AppFlag = true,
+                Profile = "web-app",
                 OptionsFlag = new string[]{"spark"}
             };
 
@@ -88,15 +88,14 @@ namespace fubu.Testing.Generation
 
 
         [Test]
-        public void no_project_if_app_flag_is_false()
+        public void no_project_if_profile_is_empty()
         {
             var input = new NewCommandInput
             {
                 SolutionName = "NewThing",
-                RippleFlag = FeedChoice.Edge
+                RippleFlag = FeedChoice.Edge,
+                Profile = "empty"
             };
-
-            input.AppFlag.ShouldBeFalse();
 
             var request = NewCommand.BuildTemplateRequest(input);
         
@@ -138,7 +137,7 @@ namespace fubu.Testing.Generation
             var input = new NewCommandInput
             {
                 SolutionName = "NewThing",
-                AppFlag = true,
+                Profile = "web-app",
                 TestsFlag = false
             };
 
@@ -152,7 +151,7 @@ namespace fubu.Testing.Generation
             var input = new NewCommandInput
             {
                 SolutionName = "NewThing",
-                AppFlag = true,
+                Profile = "web-app",
                 TestsFlag = true
             };
 
@@ -203,7 +202,7 @@ namespace fubu.Testing.Generation
             var input = new NewCommandInput
             {
                 SolutionName = "NewThing",
-                AppFlag = true
+                Profile = "web-app",
             };
 
             var request = NewCommand.BuildTemplateRequest(input);

@@ -18,6 +18,7 @@ namespace Fubu.Generation
         public NewCommand()
         {
             Usage("default").Arguments(x => x.SolutionName);
+            Usage("profile").Arguments(x => x.SolutionName, x => x.Profile);
         }
 
         public override bool Execute(NewCommandInput input)
@@ -55,6 +56,8 @@ namespace Fubu.Generation
             {
                 AssertEmpty(request.RootDirectory);
             }
+
+            new FileSystem().CreateDirectory(request.RootDirectory);
         }
 
 
@@ -90,7 +93,7 @@ namespace Fubu.Generation
         public static TemplateRequest BuildTemplateRequest(NewCommandInput input)
         {
             var request = input.CreateRequestForSolution();
-            if (input.AppFlag)
+            if (!input.Profile.EqualsIgnoreCase("empty"))
             {
                 ProjectRequest projectRequest = addApplicationProject(input, request);
                 if (input.TestsFlag)

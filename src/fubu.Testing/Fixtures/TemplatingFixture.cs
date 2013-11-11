@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using FubuCore;
+using Newtonsoft.Json.Bson;
 using StoryTeller;
 using StoryTeller.Assertions;
 using StoryTeller.Engine;
@@ -16,13 +17,15 @@ namespace fubu.Testing.Fixtures
         private string _original;
 
         private string _processPath;
+        private string _folder;
 
         public override void SetUp(ITestContext context)
         {
-            FileSystem.DeleteDirectory("Templating");
-            FileSystem.CreateDirectory("Templating");
+            _root = AppDomain.CurrentDomain.BaseDirectory.AppendPath("Templating").ToFullPath();
 
-            _root = "Templating".ToFullPath();
+            FileSystem.DeleteDirectory(_root);
+            FileSystem.CreateDirectory(_root);
+
 
             var compile = AppDomain.CurrentDomain.BaseDirectory.ToLower().EndsWith("debug")
                 ? "debug"
@@ -34,10 +37,14 @@ namespace fubu.Testing.Fixtures
                             .ParentDirectory()
                             .AppendPath("Fubu", "bin", compile, "Fubu.exe");
 
+            Debug.WriteLine("The process path is " + _processPath);
+
 
             _original = Environment.CurrentDirectory;
 
             Environment.CurrentDirectory = _root;
+
+            Debug.WriteLine("The root directory is " + _root);
         }
 
         public override void TearDown()
@@ -50,33 +57,47 @@ namespace fubu.Testing.Fixtures
         {
             var fubu = new ProcessStartInfo
             {
-                UseShellExecute = true,
+                UseShellExecute = false,
                 FileName = _processPath,
                 CreateNoWindow = true,
-                WorkingDirectory = _root
+                WorkingDirectory = _root,
+                Arguments = command,
+                RedirectStandardOutput = true
             };
 
             var process = Process.Start(fubu);
             process.WaitForExit();
 
-            StoryTellerAssert.Fail(process.ExitCode != 0, "Command failed!");
+            StoryTellerAssert.Fail(process.ExitCode != 0, "Command failed!" + process.StandardOutput.ReadToEnd());
+
+            Debug.WriteLine(process.StandardOutput.ReadToEnd());
         }
 
-        [FormatAs("Rake succeeds in folder {folder}")]
-        public bool RakeSucceeds(string folder)
+        [FormatAs("For folder {folder}")]
+        public void ForFolder(string folder)
         {
+            _folder = folder;
+        }
+
+        [FormatAs("The rake script can run successfully")]
+        public bool RakeSucceeds()
+        {
+            var workingDirectory = _root.AppendPath(_folder);
+            Debug.WriteLine("Trying to run the rake script at " + workingDirectory);
+
+            
             var rake = new ProcessStartInfo
             {
                 UseShellExecute = true,
                 FileName = "rake",
                 CreateNoWindow = true,
-                WorkingDirectory = _root.AppendPath(folder)
+                WorkingDirectory = workingDirectory
             };
 
             var process = Process.Start(rake);
             process.WaitForExit();
 
-            StoryTellerAssert.Fail(process.ExitCode != 0, "Rake failed!");
+            StoryTellerAssert.Fail(process.ExitCode != 0, "Rake failed at directory {0}!".ToFormat(workingDirectory));
 
             return true;
         }
@@ -96,9 +117,14 @@ namespace fubu.Testing.Fixtures
 
         private IEnumerable<string> allFiles()
         {
+            var path = _root.AppendPath(_folder);
+
+            var searchSpecification = FileSet.Everything();
+            searchSpecification.Exclude = "logs/*.*";
+
             return
-                FileSystem.FindFiles(_root, FileSet.Everything())
-                    .Select(x => x.PathRelativeTo(_root).Replace("\\", "/"));
+                FileSystem.FindFiles(path, searchSpecification)
+                    .Select(x => x.PathRelativeTo(path).Replace("\\", "/"));
         }
 
         [FormatAs("File {File} should contain {Contents}")]
