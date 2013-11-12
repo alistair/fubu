@@ -1,6 +1,6 @@
 <templates>
   <category type="new">
-    <project name="web-app" description="New FubuMVC application project" template="aspnet" alterations="fubumvc-empty" tags="new, add" options="">
+    <project name="web-app" description="New FubuMVC application project" template="aspnet" alterations="fubumvc-empty">
       <selection name="ioc" description="IoC Container" >
         <option name="structuremap" description="Use StructureMap for IoC" alterations="structuremap"/>
       </selection>
