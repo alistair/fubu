@@ -107,6 +107,7 @@ namespace Fubu.Generation
 
         [Description("Extra options for the new application")]
         public IEnumerable<string> OptionsFlag { get; set; }
+
     }
 
     public enum FeedChoice

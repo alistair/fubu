@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using FubuCore;
@@ -38,7 +39,15 @@ namespace Fubu.Generation
                 prepareTargetDirectory(input, request);
 
                 Templating.ExecutePlan(plan);
-                // TODO -- open the solution if you can
+
+                if (RemoteOperations.Enabled)
+                {
+                    var solutionPath = plan.SourceDirectory.AppendPath(request.SolutionName + ".sln");
+
+                    Process.Start(solutionPath);
+                }
+
+                
             }
 
 

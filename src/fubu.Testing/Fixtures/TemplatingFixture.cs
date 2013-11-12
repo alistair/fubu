@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using Fubu.Generation;
 using FubuCore;
-using Newtonsoft.Json.Bson;
+using FubuCore.CommandLine;
 using StoryTeller;
 using StoryTeller.Assertions;
 using StoryTeller.Engine;
@@ -13,29 +14,31 @@ namespace fubu.Testing.Fixtures
     public class TemplatingFixture : Fixture
     {
         public static FileSystem FileSystem = new FileSystem();
-        private string _root;
+        private string _folder;
         private string _original;
 
         private string _processPath;
-        private string _folder;
+        private string _root;
 
         public override void SetUp(ITestContext context)
         {
+            RemoteOperations.Enabled = false;
+
             _root = AppDomain.CurrentDomain.BaseDirectory.AppendPath("Templating").ToFullPath();
 
             FileSystem.DeleteDirectory(_root);
             FileSystem.CreateDirectory(_root);
 
 
-            var compile = AppDomain.CurrentDomain.BaseDirectory.ToLower().EndsWith("debug")
+            string compile = AppDomain.CurrentDomain.BaseDirectory.ToLower().EndsWith("debug")
                 ? "debug"
                 : "release";
 
             _processPath =
-                        AppDomain.CurrentDomain.BaseDirectory.ParentDirectory()
-                            .ParentDirectory()
-                            .ParentDirectory()
-                            .AppendPath("Fubu", "bin", compile, "Fubu.exe");
+                AppDomain.CurrentDomain.BaseDirectory.ParentDirectory()
+                    .ParentDirectory()
+                    .ParentDirectory()
+                    .AppendPath("Fubu", "bin", compile, "Fubu.exe");
 
             Debug.WriteLine("The process path is " + _processPath);
 
@@ -55,22 +58,10 @@ namespace fubu.Testing.Fixtures
         [FormatAs("Run fubu {command}")]
         public void Execute(string command)
         {
-            var fubu = new ProcessStartInfo
-            {
-                UseShellExecute = false,
-                FileName = _processPath,
-                CreateNoWindow = true,
-                WorkingDirectory = _root,
-                Arguments = command,
-                RedirectStandardOutput = true
-            };
+            var factory = new CommandFactory();
+            factory.RegisterCommands(typeof (NewCommand).Assembly);
 
-            var process = Process.Start(fubu);
-            process.WaitForExit();
-
-            StoryTellerAssert.Fail(process.ExitCode != 0, "Command failed!" + process.StandardOutput.ReadToEnd());
-
-            Debug.WriteLine(process.StandardOutput.ReadToEnd());
+            factory.BuildRun(command).Execute();
         }
 
         [FormatAs("For folder {folder}")]
@@ -82,10 +73,10 @@ namespace fubu.Testing.Fixtures
         [FormatAs("The rake script can run successfully")]
         public bool RakeSucceeds()
         {
-            var workingDirectory = _root.AppendPath(_folder);
+            string workingDirectory = _root.AppendPath(_folder);
             Debug.WriteLine("Trying to run the rake script at " + workingDirectory);
 
-            
+
             var rake = new ProcessStartInfo
             {
                 UseShellExecute = true,
@@ -94,7 +85,7 @@ namespace fubu.Testing.Fixtures
                 WorkingDirectory = workingDirectory
             };
 
-            var process = Process.Start(rake);
+            Process process = Process.Start(rake);
             process.WaitForExit();
 
             StoryTellerAssert.Fail(process.ExitCode != 0, "Rake failed at directory {0}!".ToFormat(workingDirectory));
@@ -117,9 +108,9 @@ namespace fubu.Testing.Fixtures
 
         private IEnumerable<string> allFiles()
         {
-            var path = _root.AppendPath(_folder);
+            string path = _root.AppendPath(_folder);
 
-            var searchSpecification = FileSet.Everything();
+            FileSet searchSpecification = FileSet.Everything();
             searchSpecification.Exclude = "logs/*.*";
 
             return
@@ -130,7 +121,7 @@ namespace fubu.Testing.Fixtures
         [FormatAs("File {File} should contain {Contents}")]
         public bool FileContains(string File, string Contents)
         {
-            var contents = FileSystem.ReadStringFromFile(_root.AppendPath(File));
+            string contents = FileSystem.ReadStringFromFile(_root.AppendPath(File));
 
             StoryTellerAssert.Fail(!contents.Contains(Contents), contents);
 
@@ -140,13 +131,11 @@ namespace fubu.Testing.Fixtures
         [FormatAs("File {File} should not contain {Contents}")]
         public bool FileDoesNotContain(string File, string Contents)
         {
-            var contents = FileSystem.ReadStringFromFile(_root.AppendPath(File));
+            string contents = FileSystem.ReadStringFromFile(_root.AppendPath(File));
 
             StoryTellerAssert.Fail(contents.Contains(Contents), contents);
 
             return true;
         }
-
-
     }
 }

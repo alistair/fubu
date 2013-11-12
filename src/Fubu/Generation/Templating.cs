@@ -70,6 +70,7 @@ namespace Fubu.Generation
             plan.Execute();
 
             new RakeStep().Alter(plan);
+            
 
             plan.WriteInstructions();
         }

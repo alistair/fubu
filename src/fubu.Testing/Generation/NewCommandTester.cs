@@ -1,13 +1,10 @@
 ﻿using System;
+using System.Linq;
 using Fubu.Generation;
 using FubuCore;
-using FubuCsProjFile.Templating;
 using FubuCsProjFile.Templating.Graph;
-using FubuCsProjFile.Templating.Runtime;
-using FubuMVC.Core;
-using NUnit.Framework;
 using FubuTestingSupport;
-using System.Linq;
+using NUnit.Framework;
 
 namespace fubu.Testing.Generation
 {
@@ -15,35 +12,12 @@ namespace fubu.Testing.Generation
     public class NewCommandTester
     {
         [Test]
-        public void default_ripple_is_public_only()
+        public void assert_folder_blows_up_when_directory_is_not_empty()
         {
-            var input = new NewCommandInput
-            {
-                SolutionName = "NewThing",
-            };
+            new FileSystem().CreateDirectory("not-empty");
+            new FileSystem().WriteStringToFile("not-empty".AppendPath("foo.txt"), "anything");
 
-            var request = input.CreateRequestForSolution();
-
-            request.Templates.ShouldContain("public-ripple");
-            request.Templates.ShouldNotContain("edge-ripple");
-            request.Templates.ShouldNotContain("floating-ripple");
-        }
-
-
-
-        [Test]
-        public void no_project_if_profile_is_empty()
-        {
-            var input = new NewCommandInput
-            {
-                SolutionName = "NewThing",
-                RippleFlag = FeedChoice.Edge,
-                Profile = "empty"
-            };
-
-            var request = input.CreateRequestForSolution();
-        
-            request.Projects.Any().ShouldBeFalse();
+            Exception<InvalidOperationException>.ShouldBeThrownBy(() => { NewCommand.AssertEmpty("not-empty"); });
         }
 
         [Test]
@@ -63,16 +37,26 @@ namespace fubu.Testing.Generation
         }
 
         [Test]
-        public void assert_folder_blows_up_when_directory_is_not_empty()
+        public void default_ripple_is_public_only()
         {
-            new FileSystem().CreateDirectory("not-empty");
-            new FileSystem().WriteStringToFile("not-empty".AppendPath("foo.txt"), "anything");
+            var input = new NewCommandInput
+            {
+                SolutionName = "NewThing",
+            };
 
-            Exception<InvalidOperationException>.ShouldBeThrownBy(() => {
-                NewCommand.AssertEmpty("not-empty");
-            });
+            TemplateRequest request = input.CreateRequestForSolution();
+
+            request.Templates.ShouldContain("public-ripple");
+            request.Templates.ShouldNotContain("edge-ripple");
+            request.Templates.ShouldNotContain("floating-ripple");
         }
 
+        [Test]
+        public void dot_git_files_are_ignored()
+        {
+            NewCommand.IsBaselineFile(".git/something")
+                .ShouldBeTrue();
+        }
 
         [Test]
         public void license_file_is_ignored()
@@ -82,10 +66,18 @@ namespace fubu.Testing.Generation
         }
 
         [Test]
-        public void dot_git_files_are_ignored()
+        public void no_project_if_profile_is_empty()
         {
-            NewCommand.IsBaselineFile(".git/something")
-                .ShouldBeTrue();
+            var input = new NewCommandInput
+            {
+                SolutionName = "NewThing",
+                RippleFlag = FeedChoice.Edge,
+                Profile = "empty"
+            };
+
+            TemplateRequest request = input.CreateRequestForSolution();
+
+            request.Projects.Any().ShouldBeFalse();
         }
 
         [Test]
@@ -102,8 +94,6 @@ namespace fubu.Testing.Generation
     [TestFixture]
     public class when_an_app_is_requested_within_the_new_request
     {
-        private ProjectRequest project;
-
         [SetUp]
         public void SetUp()
         {
@@ -113,10 +103,12 @@ namespace fubu.Testing.Generation
                 Profile = "web-app",
             };
 
-            var request = input.CreateRequestForSolution();
+            TemplateRequest request = input.CreateRequestForSolution();
 
             project = request.Projects.Single();
         }
+
+        private ProjectRequest project;
 
         [Test]
         public void is_a_project()
@@ -129,8 +121,5 @@ namespace fubu.Testing.Generation
         {
             project.Name.ShouldEqual("NewThing");
         }
-
-
-
     }
 }
