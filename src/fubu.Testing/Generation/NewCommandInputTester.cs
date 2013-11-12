@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Fubu.Generation;
+using FubuCsProjFile;
 using FubuCsProjFile.Templating.Graph;
 using FubuCsProjFile.Templating.Runtime;
 using NUnit.Framework;
@@ -10,7 +11,7 @@ using FubuTestingSupport;
 namespace fubu.Testing.Generation
 {
     [TestFixture]
-    public class NewSolutionInputTester
+    public class NewCommandInputTester
     {
         [Test]
         public void solution_path_is_just_current_plus_solution_name_by_default()
@@ -177,6 +178,40 @@ namespace fubu.Testing.Generation
             choices.ProjectType.ShouldEqual(input.Profile);
             choices.Options.ShouldHaveTheSameElementsAs("a", "b", "c");
 
+        }
+
+        [Test]
+        public void default_version_is_vs2012()
+        {
+            new NewCommandInput().VersionFlag.ShouldEqual("VS2012");
+        }
+
+        [Test]
+        public void transfers_the_version_to_the_request()
+        {
+            new NewCommandInput
+            {
+                VersionFlag = Solution.VS2010,
+                SolutionName = "Foo"
+            }
+                .CreateRequestForSolution()
+                .Version.ShouldEqual(Solution.VS2010);
+
+            new NewCommandInput
+            {
+                VersionFlag = Solution.VS2012,
+                SolutionName = "Foo"
+            }
+                .CreateRequestForSolution()
+                .Version.ShouldEqual(Solution.VS2012);
+
+            new NewCommandInput
+            {
+                VersionFlag = Solution.VS2013,
+                SolutionName = "Foo"
+            }
+                .CreateRequestForSolution()
+                .Version.ShouldEqual(Solution.VS2013);
         }
     }
 }

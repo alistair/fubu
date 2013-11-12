@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using FubuCore;
 using FubuCore.CommandLine;
+using FubuCsProjFile;
 using FubuCsProjFile.Templating.Graph;
 using FubuCsProjFile.Templating.Runtime;
 
@@ -22,6 +23,7 @@ namespace Fubu.Generation
         {
             RippleFlag = FeedChoice.PublicOnly;
             Profile = "web-app";
+            VersionFlag = Solution.VS2012;
         }
 
         [Description("Name of the solution and the root folder without an extension")]
@@ -43,6 +45,9 @@ namespace Fubu.Generation
         [FlagAlias("no-tests", 'n')]
         public bool NoTestsFlag { get; set; }
 
+        [Description("Visual Studio version.  'VS2012' is the default. Options are 'VS2010', 'VS2012', or 'VS2013'")]
+        public string VersionFlag { get; set; }
+
         public string SolutionDirectory()
         {
             return Environment.CurrentDirectory.AppendPath(SolutionName);
@@ -53,7 +58,8 @@ namespace Fubu.Generation
             var request = new TemplateRequest
             {
                 RootDirectory = SolutionDirectory(),
-                SolutionName = SolutionName
+                SolutionName = SolutionName,
+                Version = VersionFlag
             };
 
             request.AddTemplate("baseline");
