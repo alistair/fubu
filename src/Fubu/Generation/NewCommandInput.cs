@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using FubuCore;
+using FubuCore.CommandLine;
 using FubuCsProjFile.Templating.Graph;
+using FubuCsProjFile.Templating.Runtime;
 
 namespace Fubu.Generation
 {
@@ -36,6 +39,10 @@ namespace Fubu.Generation
         [Description("Clean out any existing contents of the target folder before running the templates")]
         public bool CleanFlag { get; set; }
 
+        [Description("Do not generate a matching testing project.  Boo!")]
+        [FlagAlias("no-tests", 'n')]
+        public bool NoTestsFlag { get; set; }
+
         public string SolutionDirectory()
         {
             return Environment.CurrentDirectory.AppendPath(SolutionName);
@@ -53,15 +60,46 @@ namespace Fubu.Generation
 
             request.AddTemplate(_rippleTemplates[RippleFlag]);
 
+            determineShortName(request);
+
+            if (!Profile.EqualsIgnoreCase("empty"))
+            {
+                var choices = ToTemplateChoices();
+                var project = Templating.Library.Graph.BuildProjectRequest(choices);
+
+                request.AddProjectRequest(project);
+                if (!NoTestsFlag)
+                {
+                    request.AddMatchingTestingProject(project);
+                }
+            }
+
             return request;
+        }
+
+        // TODO -- views?
+        public TemplateChoices ToTemplateChoices()
+        {
+            return new TemplateChoices
+            {
+                Category = "new",
+                ProjectName = SolutionName,
+                ProjectType = Profile,
+                Options = OptionsFlag
+            };
+        }
+
+        private void determineShortName(TemplateRequest request)
+        {
+            var shortName = ShortNameFlag.IsEmpty()
+                ? SolutionName.Split('.').Skip(1).Join("")
+                : ShortNameFlag;
+
+            request.Substitutions.Set(ProjectPlan.SHORT_NAME, shortName);
         }
 
         [Description("Project profile.  Use the --list flag to see the valid options")]
         public string Profile { get; set; }
-
-        // TODO -- change this to --no-tests
-        [Description("Add a testing library for the project using the default FubuTestingSupport w/ NUnit")]
-        public bool TestsFlag { get; set; }
 
         [Description("Ignore the presence of existing files")]
         public bool IgnoreFlag { get; set; }

@@ -23,7 +23,7 @@ namespace Fubu.Generation
 
         public override bool Execute(NewCommandInput input)
         {
-            TemplateRequest request = BuildTemplateRequest(input);
+            TemplateRequest request = input.CreateRequestForSolution();
             TemplatePlan plan = Templating.BuildPlan(request);
 
             if (input.PreviewFlag)
@@ -88,49 +88,6 @@ namespace Fubu.Generation
             if (Path.GetFileName(file).EqualsIgnoreCase("license.txt")) return true;
 
             return false;
-        }
-
-        public static TemplateRequest BuildTemplateRequest(NewCommandInput input)
-        {
-            var request = input.CreateRequestForSolution();
-            if (!input.Profile.EqualsIgnoreCase("empty"))
-            {
-                ProjectRequest projectRequest = addApplicationProject(input, request);
-                if (input.TestsFlag)
-                {
-                    request.AddMatchingTestingProject(projectRequest);
-                }
-            }
-
-            return request;
-        }
-
-        private static ProjectRequest addApplicationProject(NewCommandInput input, TemplateRequest request)
-        {
-            var project = new ProjectRequest(input.SolutionName, "baseline");
-            project.Alterations.Add("structuremap");
-            project.Alterations.Add("fubumvc-empty");
-
-            if (input.OptionsFlag != null)
-            {
-                input.OptionsFlag.Each(x => project.Alterations.Add(x));
-            }
-
-            // TODO -- duplication!
-            if (input.ShortNameFlag.IsNotEmpty())
-            {
-                project.Substitutions.Set(ProjectPlan.SHORT_NAME, input.ShortNameFlag);
-            }
-
-            // TODO -- Will need to check for razor too!
-            if (!project.Alterations.Contains("spark"))
-            {
-                project.Alterations.Add("no-views");
-            }
-
-            request.AddProjectRequest(project);
-
-            return project;
         }
     }
 }

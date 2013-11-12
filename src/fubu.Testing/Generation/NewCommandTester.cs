@@ -22,67 +22,11 @@ namespace fubu.Testing.Generation
                 SolutionName = "NewThing",
             };
 
-            var request = NewCommand.BuildTemplateRequest(input);
+            var request = input.CreateRequestForSolution();
 
             request.Templates.ShouldContain("public-ripple");
             request.Templates.ShouldNotContain("edge-ripple");
             request.Templates.ShouldNotContain("floating-ripple");
-        }
-
-        [Test]
-        public void new_project_request_gets_the_assembly_version_alteration()
-        {
-            var input = new NewCommandInput
-            {
-                SolutionName = "NewThing",
-                Profile = "web-app"
-            };
-
-            var request = NewCommand.BuildTemplateRequest(input);
-            request.Projects.Single().Template.ShouldContain("baseline");
-        }
-
-        [Test]
-        public void supports_the_shortname_flag()
-        {
-            var input = new NewCommandInput
-            {
-                SolutionName = "FubuMVC.Scenarios",
-                Profile = "web-app",
-                ShortNameFlag = "Foo"
-            };
-
-            var request = NewCommand.BuildTemplateRequest(input);
-
-            request.Projects.Single().Substitutions.ValueFor(ProjectPlan.SHORT_NAME).ShouldEqual("Foo");
-        }
-
-        [Test]
-        public void add_no_views_home_page_if_there_are_no_views()
-        {
-            var input = new NewCommandInput
-            {
-                SolutionName = "FubuMVC.Scenarios",
-                Profile = "web-app",
-            };
-
-            var request = NewCommand.BuildTemplateRequest(input);
-            request.Projects.Single().Alterations.ShouldContain("no-views");
-        }
-
-        [Test]
-        public void add_spark_but_not_no_views_if_spark_option_is_requested()
-        {
-            var input = new NewCommandInput
-            {
-                SolutionName = "FubuMVC.Scenarios",
-                Profile = "web-app",
-                OptionsFlag = new string[]{"spark"}
-            };
-
-            var request = NewCommand.BuildTemplateRequest(input);
-            request.Projects.Single().Alterations.ShouldNotContain("no-views");
-            request.Projects.Single().Alterations.ShouldContain("spark");
         }
 
 
@@ -97,7 +41,7 @@ namespace fubu.Testing.Generation
                 Profile = "empty"
             };
 
-            var request = NewCommand.BuildTemplateRequest(input);
+            var request = input.CreateRequestForSolution();
         
             request.Projects.Any().ShouldBeFalse();
         }
@@ -129,42 +73,6 @@ namespace fubu.Testing.Generation
             });
         }
 
-
-
-        [Test]
-        public void no_tests_if_no_tests_flag()
-        {
-            var input = new NewCommandInput
-            {
-                SolutionName = "NewThing",
-                Profile = "web-app",
-                TestsFlag = false
-            };
-
-            var request = NewCommand.BuildTemplateRequest(input);
-            request.TestingProjects.Any().ShouldBeFalse();
-        }
-
-        [Test]
-        public void adds_in_the_testing_request_if_app_and_tests_are_selected()
-        {
-            var input = new NewCommandInput
-            {
-                SolutionName = "NewThing",
-                Profile = "web-app",
-                TestsFlag = true
-            };
-
-            var request = NewCommand.BuildTemplateRequest(input);
-            var testingRequest = request.TestingProjects.Single();
-
-            testingRequest.ShouldNotBeNull();
-            testingRequest.OriginalProject.ShouldEqual("NewThing");
-            testingRequest.Name.ShouldEqual("NewThing.Testing");
-            testingRequest.Template.ShouldEqual("baseline");
-
-            testingRequest.Alterations.Single().ShouldEqual("unit-testing");
-        }
 
         [Test]
         public void license_file_is_ignored()
@@ -205,7 +113,7 @@ namespace fubu.Testing.Generation
                 Profile = "web-app",
             };
 
-            var request = NewCommand.BuildTemplateRequest(input);
+            var request = input.CreateRequestForSolution();
 
             project = request.Projects.Single();
         }
@@ -222,23 +130,6 @@ namespace fubu.Testing.Generation
             project.Name.ShouldEqual("NewThing");
         }
 
-        [Test]
-        public void is_build_from_empty_fubumvc_app()
-        {
-            project.Template.ShouldEqual("baseline");
-        }
-
-        [Test]
-        public void defaults_to_structuremap()
-        {
-            project.Alterations.ShouldContain("structuremap");
-        }
-
-        [Test]
-        public void has_empty_fubumvc()
-        {
-            project.Alterations.ShouldContain("fubumvc-empty");
-        }
 
 
     }
