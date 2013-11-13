@@ -111,11 +111,18 @@ namespace fubu.Testing.Fixtures
             string path = _root.AppendPath(_folder);
 
             FileSet searchSpecification = FileSet.Everything();
-            searchSpecification.Exclude = "logs/*.*";
+            searchSpecification.Exclude = "logs/*.*;instructions.txt;*-TestResults.xml;fubu.templates.config";
 
             return
                 FileSystem.FindFiles(path, searchSpecification)
-                    .Select(x => x.PathRelativeTo(path).Replace("\\", "/"));
+                    .Select(x => x.PathRelativeTo(path).Replace("\\", "/"))
+                    .Where(x => !x.StartsWith("src/packages"))
+                    .Where(x => !x.Contains("/bin/"))
+                    .Where(x => !x.Contains("/obj/"))
+                    .Where(x => !x.Contains("fubu.templates.config"))
+                    .Where(x => !x.Contains(".bottle-alias"))
+                    .Where(x => !x.Contains("TestResults.xml"));
+
         }
 
         [FormatAs("File {File} should contain {Contents}")]
