@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using FubuCore;
 using FubuCore.CommandLine;
+using FubuCore.Descriptions;
 using FubuCsProjFile.Templating.Graph;
 using FubuCsProjFile.Templating.Planning;
 using FubuCsProjFile.Templating.Runtime;
@@ -20,10 +21,17 @@ namespace Fubu.Generation
         {
             Usage("default").Arguments(x => x.SolutionName);
             Usage("profile").Arguments(x => x.SolutionName, x => x.Profile);
+            Usage("list").Arguments().ValidFlags(x => x.ListFlag);
         }
 
         public override bool Execute(NewCommandInput input)
         {
+            if (input.ListFlag)
+            {
+                Templating.Library.Graph.FindCategory("new").WriteDescriptionToConsole();
+                return true;
+            }
+
             TemplateRequest request = input.CreateRequestForSolution();
             TemplatePlan plan = Templating.BuildPlan(request);
 

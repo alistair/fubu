@@ -29,6 +29,9 @@ namespace Fubu.Generation
         [Description("Name of the solution and the root folder without an extension")]
         public string SolutionName { get; set; }
 
+        [Description("List all the possible project types and their valid options")]
+        public bool ListFlag { get; set; }
+
         [Description("Only list a preview of the template plan, but do not execute the plan")]
         public bool PreviewFlag { get; set; }
 

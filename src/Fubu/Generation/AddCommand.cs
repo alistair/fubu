@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using FubuCore;
 using FubuCore.CommandLine;
+using FubuCore.Descriptions;
 using FubuCsProjFile.Templating.Graph;
 using FubuCsProjFile.Templating.Planning;
 using FubuCsProjFile.Templating.Runtime;
@@ -27,6 +28,9 @@ namespace Fubu.Generation
         [Description("Do not generate a matching testing project.  Boo!")]
         [FlagAlias("no-tests", 'n')]
         public bool NoTestsFlag { get; set; }
+
+        [Description("List all the possible project types and their valid options")]
+        public bool ListFlag { get; set; }
 
 
         [Description("Extra options for the new application")]
@@ -53,8 +57,20 @@ namespace Fubu.Generation
 
     public class AddCommand : FubuCommand<AddInput>
     {
+        public AddCommand()
+        {
+            Usage("default").Arguments(x => x.ProjectName, x => x.Profile);
+            Usage("list").Arguments().ValidFlags(x => x.ListFlag);
+        }
+
         public override bool Execute(AddInput input)
         {
+            if (input.ListFlag)
+            {
+                Templating.Library.Graph.FindCategory("add").WriteDescriptionToConsole();
+                return true;
+            }
+
             string solutionFile = input.SolutionFlag ?? SolutionFinder.FindSolutionFile();
 
             if (solutionFile.IsEmpty()) return false;
