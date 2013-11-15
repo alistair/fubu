@@ -96,6 +96,26 @@ namespace fubu.Testing.Generation
         }
 
         [Test]
+        public void sets_the_dot_net_version()
+        {
+            var input = new NewCommandInput
+            {
+                SolutionName = "MyCompany.NewThing",
+                RippleFlag = FeedChoice.Edge,
+                DotNetFlag = DotNetVersion.V45
+            };
+
+            var request = input.CreateRequestForSolution();
+
+            request.Projects.First()
+                .Version.ShouldEqual(input.DotNetFlag);
+
+            request.TestingProjects.First()
+                .Version.ShouldEqual(input.DotNetFlag);
+
+        }
+
+        [Test]
         public void sets_the_short_name_of_the_project_by_explicit_flag()
         {
             var input = new NewCommandInput

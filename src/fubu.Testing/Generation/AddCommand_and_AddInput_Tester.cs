@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Fubu.Generation;
+using FubuCsProjFile;
 using FubuTestingSupport;
 using NUnit.Framework;
 
@@ -43,6 +44,36 @@ namespace fubu.Testing.Generation
 
             request.TestingProjects.Single()
                 .Name.ShouldEqual("Foo.Testing");
+        }
+
+        [Test]
+        public void sets_the_dot_net_version()
+        {
+            var input = new AddInput
+            {
+                Profile = "library",
+                ProjectName = "Foo",
+                DotNetFlag = DotNetVersion.V45
+            };
+
+            var request = AddCommand.BuildTemplateRequest(input, "MyFoo.sln");
+            request.Projects.First().Version.ShouldEqual(DotNetVersion.V45);
+            request.TestingProjects.First().Version.ShouldEqual(DotNetVersion.V45);
+        }
+
+        [Test]
+        public void sets_the_dot_net_version_2()
+        {
+            var input = new AddInput
+            {
+                Profile = "library",
+                ProjectName = "Foo",
+                DotNetFlag = DotNetVersion.V40
+            };
+
+            var request = AddCommand.BuildTemplateRequest(input, "MyFoo.sln");
+            request.Projects.First().Version.ShouldEqual(DotNetVersion.V40);
+            request.TestingProjects.First().Version.ShouldEqual(DotNetVersion.V40);
         }
 
         [Test]

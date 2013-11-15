@@ -5,8 +5,8 @@ using System.Linq;
 using FubuCore;
 using FubuCore.CommandLine;
 using FubuCore.Descriptions;
+using FubuCsProjFile;
 using FubuCsProjFile.Templating.Graph;
-using FubuCsProjFile.Templating.Planning;
 using FubuCsProjFile.Templating.Runtime;
 
 namespace Fubu.Generation
@@ -43,6 +43,10 @@ namespace Fubu.Generation
                 : ShortNameFlag;
         }
 
+        [Description("Specify the .Net version 'v4.0' or 'v4.5'")]
+        public string DotNetFlag { get; set; }
+
+
         public TemplateChoices ToChoices()
         {
             return new TemplateChoices
@@ -71,14 +75,14 @@ namespace Fubu.Generation
                 return true;
             }
 
-            string solutionFile = input.SolutionFlag ?? SolutionFinder.FindSolutionFile();
+            var solutionFile = input.SolutionFlag ?? SolutionFinder.FindSolutionFile();
 
             if (solutionFile.IsEmpty()) return false;
 
             try
             {
-                TemplateRequest request = BuildTemplateRequest(input, solutionFile);
-                TemplatePlan plan = Templating.BuildPlan(request);
+                var request = BuildTemplateRequest(input, solutionFile);
+                var plan = Templating.BuildPlan(request);
                 Templating.ExecutePlan(plan);
             }
             catch (Exception)
@@ -103,15 +107,18 @@ namespace Fubu.Generation
 
             request.Substitutions.Set(ProjectPlan.SHORT_NAME, input.DetermineShortName());
 
-            TemplateChoices choices = input.ToChoices();
+            var choices = input.ToChoices();
 
-            ProjectRequest project = Templating.Library.Graph.BuildProjectRequest(choices);
+            var project = Templating.Library.Graph.BuildProjectRequest(choices);
+            project.Version = input.DotNetFlag ?? DotNetVersion.V40;
+
 
             request.AddProjectRequest(project);
             if (!input.NoTestsFlag)
             {
                 request.AddMatchingTestingProject(project);
             }
+
             return request;
         }
     }

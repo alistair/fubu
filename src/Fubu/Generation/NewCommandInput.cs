@@ -51,6 +51,9 @@ namespace Fubu.Generation
         [Description("Visual Studio version.  'VS2012' is the default. Options are 'VS2010', 'VS2012', or 'VS2013'")]
         public string VersionFlag { get; set; }
 
+        [Description("Specify the .Net version 'v4.0' or 'v4.5'")]
+        public string DotNetFlag { get; set; }
+
         public string SolutionDirectory()
         {
             return Environment.CurrentDirectory.AppendPath(SolutionName);
@@ -75,6 +78,7 @@ namespace Fubu.Generation
             {
                 var choices = ToTemplateChoices();
                 var project = Templating.Library.Graph.BuildProjectRequest(choices);
+                project.Version = DotNetFlag ?? DotNetVersion.V40;
 
                 request.AddProjectRequest(project);
                 if (!NoTestsFlag)

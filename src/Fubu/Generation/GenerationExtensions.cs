@@ -1,4 +1,5 @@
-﻿using FubuCsProjFile.Templating.Graph;
+﻿using FubuCsProjFile;
+using FubuCsProjFile.Templating.Graph;
 
 namespace Fubu.Generation
 {
@@ -11,6 +12,7 @@ namespace Fubu.Generation
 
             testing.Alterations.Add("unit-testing");
             testing.OriginalProject = project.Name;
+            testing.Version = project.Version ?? DotNetVersion.V40;
 
             request.AddTestingRequest(testing);
         }
