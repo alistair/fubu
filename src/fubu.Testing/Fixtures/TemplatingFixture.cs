@@ -68,6 +68,8 @@ namespace fubu.Testing.Fixtures
         public void ForFolder(string folder)
         {
             _folder = folder;
+
+            Environment.CurrentDirectory = Environment.CurrentDirectory.AppendPath(folder);
         }
 
         [FormatAs("The rake script can run successfully")]

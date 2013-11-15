@@ -35,7 +35,7 @@ namespace Fubu.Generation
         [Description("Choose a ripple configuration for only public Nuget feeds, including the Fubu TeamCity feed, or 'floating' on the Fubu edge")]
         public FeedChoice RippleFlag { get; set; }
 
-        [Description("Used in many templates as a prefix for generted classes")]
+        [Description("Used in many templates as a prefix for generated classes")]
         public string ShortNameFlag { get; set; }
 
         [Description("Clean out any existing contents of the target folder before running the templates")]
