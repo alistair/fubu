@@ -12,7 +12,6 @@
         <row isStep="True" expected="src/CommonAssemblyInfo.cs" />
         <row isStep="True" expected="VERSION.txt" />
         <row isStep="True" expected="rakefile" />
-        <row isStep="True" expected="fubu.templates.config" />
         <row isStep="True" expected="Gemfile" />
       </Rows>
     </AllTheFilesShouldBe>
