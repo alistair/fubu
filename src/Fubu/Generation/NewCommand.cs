@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -8,15 +7,12 @@ using FubuCore.CommandLine;
 using FubuCore.Descriptions;
 using FubuCsProjFile.Templating.Graph;
 using FubuCsProjFile.Templating.Planning;
-using FubuCsProjFile.Templating.Runtime;
 
 namespace Fubu.Generation
 {
     [CommandDescription("Lays out and creates a new code tree with the idiomatic fubu project layout", Name = "new")]
     public class NewCommand : FubuCommand<NewCommandInput>
     {
-
-
         public NewCommand()
         {
             Usage("default").Arguments(x => x.SolutionName);
@@ -32,9 +28,27 @@ namespace Fubu.Generation
                 return true;
             }
 
-            TemplateRequest request = input.CreateRequestForSolution();
-            TemplatePlan plan = Templating.BuildPlan(request);
+            try
+            {
+                var request = input.CreateRequestForSolution();
+                var plan = Templating.BuildPlan(request);
+                executePlan(input, plan, request);
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Template planning failed.  The valid options for this command are:");
+                Templating.Library.Graph.FindCategory("new").WriteDescriptionToConsole();
+                Console.WriteLine();
+                Console.WriteLine();
+                throw;
+            }
 
+
+            return true;
+        }
+
+        private static void executePlan(NewCommandInput input, TemplatePlan plan, TemplateRequest request)
+        {
             if (input.PreviewFlag)
             {
                 Console.WriteLine("To solution directory " + input.SolutionDirectory());
@@ -54,12 +68,7 @@ namespace Fubu.Generation
 
                     Process.Start(solutionPath);
                 }
-
-                
             }
-
-
-            return true;
         }
 
 
@@ -82,8 +91,8 @@ namespace Fubu.Generation
         {
             if (Directory.Exists(directory))
             {
-                IEnumerable<string> files = new FileSystem().FindFiles(directory, FileSet.Everything());
-                string[] notBaseline = files.Where(x => !IsBaselineFile(x)).ToArray();
+                var files = new FileSystem().FindFiles(directory, FileSet.Everything());
+                var notBaseline = files.Where(x => !IsBaselineFile(x)).ToArray();
                 if (notBaseline.Any())
                 {
                     throw new InvalidOperationException(

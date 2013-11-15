@@ -75,10 +75,20 @@ namespace Fubu.Generation
 
             if (solutionFile.IsEmpty()) return false;
 
-            TemplateRequest request = BuildTemplateRequest(input, solutionFile);
-
-            TemplatePlan plan = Templating.BuildPlan(request);
-            Templating.ExecutePlan(plan);
+            try
+            {
+                TemplateRequest request = BuildTemplateRequest(input, solutionFile);
+                TemplatePlan plan = Templating.BuildPlan(request);
+                Templating.ExecutePlan(plan);
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Template planning failed.  The valid options for this command are:");
+                Templating.Library.Graph.FindCategory("add").WriteDescriptionToConsole();
+                Console.WriteLine();
+                Console.WriteLine();
+                throw;
+            }
 
             return true;
         }
