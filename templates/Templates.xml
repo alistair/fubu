@@ -10,5 +10,6 @@
         <option name="razor" description="Razor view engine" alterations="razor"/>
       </selection>
     </project>
+    <project name="library" description="Simple Class Library project" template="baseline" alterations="fubucore"></project>
   </category>
 </templates>

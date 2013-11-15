@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using FubuCore;
-using FubuCore.CommandLine;
-using FubuCsProjFile.Templating;
+﻿using System.Diagnostics;
 using FubuCsProjFile.Templating.Planning;
 using FubuCsProjFile.Templating.Runtime;
 
@@ -28,7 +22,7 @@ namespace Fubu.Generation
                 WorkingDirectory = plan.Root
             };
 
-            var process = Process.Start(rake);
+            Process process = Process.Start(rake);
             process.WaitForExit();
 
             if (process.ExitCode != 0)
