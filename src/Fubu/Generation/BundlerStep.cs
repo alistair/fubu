@@ -1,7 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using FubuCore.CommandLine;
-using FubuCsProjFile.Templating;
+﻿using System.Diagnostics;
 using FubuCsProjFile.Templating.Planning;
 using FubuCsProjFile.Templating.Runtime;
 
@@ -19,7 +16,7 @@ namespace Fubu.Generation
 
             var bundler = new ProcessStartInfo
             {
-                UseShellExecute = true,
+                UseShellExecute = !FubuCore.Platform.IsUnix (),
                 FileName = "bundle",
                 Arguments = "install",
                 CreateNoWindow = true,
